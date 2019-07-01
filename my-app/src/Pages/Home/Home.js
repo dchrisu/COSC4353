@@ -5,9 +5,9 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <Button variant="contained">
-                    Hello world
-                </Button>
+                <h1>
+                    Hello, welcome to our Homepage!
+                </h1>
             </div>
         );
     }
