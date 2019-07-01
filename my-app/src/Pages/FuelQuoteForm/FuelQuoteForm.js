@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
 
-class Home extends Component {
+class FuelQuoteForm extends Component {
     render() {
         return (
             <div>
-                <Button variant="contained" className={classes.button}>
+                <Button variant="contained">
                     Hello world
                 </Button>
             </div>
         );
     }
 }
-export default Home;
+export default FuelQuoteForm;
