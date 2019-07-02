@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper'
+import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
     container: {
@@ -38,12 +38,11 @@ class FuelQuoteForm extends React.Component {
                 <h1>Fuel Quote Form</h1>
                 <form noValidate autoComplete="off">
                     <TextField
-                        id="filled-required"
+                        id="filled-name"
                         type="number"
                         label="Gallons Requested*"
                         style={{ margin: 8 }}
                         className={classes.textField}
-                        value="Number of Gallons"
                         margin="normal"
                         variant="filled"
                     />

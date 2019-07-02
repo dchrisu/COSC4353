@@ -52,23 +52,19 @@ class Header extends Component {
                             <Router>
                                 <Grid className={classes.gridItem} item xs={3}>
                                     <Button>
-                                        <a className={classes.linkStyles} href="/Login"><Link to="/Login">Login
-                                    </Link></a></Button>
+                                        <a className={classes.linkStyles} href="/Login"><Link to="/Login">Login</Link></a></Button>
                                 </Grid>
                                 <Grid className={classes.gridItem} item xs={3}>
                                     <Button>
-                                        <a className={classes.linkStyles} href="/ClientProfileManagement" ><Link to="/ClientProfileManagement">Profile
-                                    </Link></a></Button>
+                                        <a className={classes.linkStyles} href="/ClientProfileManagement" ><Link to="/ClientProfileManagement">Profile</Link></a></Button>
                                 </Grid>
                                 <Grid className={classes.gridItem} item xs={3}>
                                     <Button>
-                                        <a className={classes.linkStyles} href="/FuelQuoteForm"><Link to="/FuelQuoteForm">Fuel Quote
-                                    </Link></a></Button>
+                                        <a className={classes.linkStyles} href="/FuelQuoteForm"><Link to="/FuelQuoteForm">Fuel Quote</Link></a></Button>
                                 </Grid>
                                 <Grid className={classes.gridItem} item xs={3}>
                                     <Button>
-                                        <a className={classes.linkStyles} href="/FuelQuoteHistory" ><Link to="/FuelQuoteHistory">Quote History
-                                    </Link></a></Button>
+                                        <a className={classes.linkStyles} href="/FuelQuoteHistory" ><Link to="/FuelQuoteHistory">Quote History</Link></a></Button>
                                 </Grid>
                             </Router>
                         </Grid>
