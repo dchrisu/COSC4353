@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import Menu from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
@@ -15,6 +15,19 @@ const styles = theme => ({
     },
     gridItem: {
         textAlign: 'center',
+    },
+    linkStyles: {
+        color: 'white'
+    },
+    a: {
+        link: {
+            textDecoration: 'none',
+            color: 'white',
+        },
+        visited: {
+            textDecoration: 'none',
+            color: 'white',
+        }
     }
 });
 
@@ -23,34 +36,43 @@ class Header extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div className={classes.wrapper} style={{ paddingBottom: '50px' }}>
+            <div class="container" style={{ maxWidth: '100%', margin: '0 auto', paddingBottom: '50px' }}>
                 <AppBar position="static">
-                    <Toolbar>
-                        <Grid container spacing={12} style={{ textAlign: 'center' }}>
+                    <Menu>
+                        <div style={{ width: '30%' }}>
                             <Router>
-                                <Grid className={classes.gridItem} item xs={3} >
+                                <Grid>
                                     <Button variant="contained">
-                                        <a href="/Login" class="MenuContents"><Link to="/Login">Login
+                                        <a href="/" class="MenuContents"><Link to="/">Home
                                     </Link></a></Button>
                                 </Grid>
-                                <Grid className={classes.gridItem} item xs={3} >
-                                    <Button variant="contained">
-                                        <a href="/ClientProfileManagement" class="MenuContents"><Link to="/ClientProfileManagement">Profile
+                            </Router>
+                        </div>
+                        <Grid container style={{ width: '70%' }} style={{ textAlign: 'center' }}>
+                            <Router>
+                                <Grid className={classes.gridItem} item xs={3}>
+                                    <Button>
+                                        <a className={classes.linkStyles} href="/Login"><Link to="/Login">Login
                                     </Link></a></Button>
                                 </Grid>
-                                <Grid className={classes.gridItem} item xs={3} >
-                                    <Button variant="contained">
-                                        <a href="/FuelQuoteForm" class="MenuContents"><Link to="/FuelQuoteForm">Fuel Quote
+                                <Grid className={classes.gridItem} item xs={3}>
+                                    <Button>
+                                        <a className={classes.linkStyles} href="/ClientProfileManagement" ><Link to="/ClientProfileManagement">Profile
                                     </Link></a></Button>
                                 </Grid>
-                                <Grid className={classes.gridItem} item xs={3} >
-                                    <Button variant="contained">
-                                        <a href="/FuelQuoteHistory" class="MenuContents"><Link to="/FuelQuoteHistory">Quote History
+                                <Grid className={classes.gridItem} item xs={3}>
+                                    <Button>
+                                        <a className={classes.linkStyles} href="/FuelQuoteForm"><Link to="/FuelQuoteForm">Fuel Quote
+                                    </Link></a></Button>
+                                </Grid>
+                                <Grid className={classes.gridItem} item xs={3}>
+                                    <Button>
+                                        <a className={classes.linkStyles} href="/FuelQuoteHistory" ><Link to="/FuelQuoteHistory">Quote History
                                     </Link></a></Button>
                                 </Grid>
                             </Router>
                         </Grid>
-                    </Toolbar>
+                    </Menu>
                 </AppBar>
             </div>
         );
