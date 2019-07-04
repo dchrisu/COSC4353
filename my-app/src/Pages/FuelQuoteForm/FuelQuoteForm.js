@@ -92,12 +92,12 @@ class FuelQuoteForm extends React.Component {
                     />
                 </form>
 
-                <Button size="large" style={{ margin: 50 }}>
+                <Button size="medium" style={{ margin: 50 }} variant="contained">
                     Get Price
                     </Button>
 
                 <br></br>
-                <Button size="large" style={{ margin: 50 }} variant="contained">
+                <Button size="large" style={{ margin: 50 }} disabled variant="contained">
                     Submit
                 </Button>
             </Paper>
