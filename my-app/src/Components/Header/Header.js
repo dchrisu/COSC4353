@@ -48,11 +48,15 @@ class Header extends Component {
                                 </Grid>
                             </Router>
                         </div>
-                        <Grid container style={{ width: '70%' }} style={{ textAlign: 'center' }}>
+                        <Grid container style={{ width: '90%' }} style={{ textAlign: 'center' }}>
                             <Router>
                                 <Grid className={classes.gridItem} item xs={3}>
                                     <Button>
                                         <a className={classes.linkStyles} href="/Login"><Link to="/Login">Login</Link></a></Button>
+                                </Grid>
+                                <Grid className={classes.gridItem} item xs={3}>
+                                    <Button>
+                                        <a className={classes.linkStyles} href="/ClientRegistration"><Link to="/ClientRegistration">Register</Link></a></Button>
                                 </Grid>
                                 <Grid className={classes.gridItem} item xs={3}>
                                     <Button>
