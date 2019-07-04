@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     container: {
@@ -90,6 +91,15 @@ class FuelQuoteForm extends React.Component {
                         variant="filled"
                     />
                 </form>
+
+                <Button size="large" style={{ margin: 50 }}>
+                    Get Price
+                    </Button>
+
+                <br></br>
+                <Button size="large" style={{ margin: 50 }} variant="contained">
+                    Submit
+                </Button>
             </Paper>
         );
     }
