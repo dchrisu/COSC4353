@@ -4,7 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
 
 const styles = theme => ({
     container: {
@@ -27,10 +29,18 @@ const styles = theme => ({
 class FuelQuoteForm extends React.Component {
     state = {
         Date: '',
+        GallonsRequested: 0,
     }
 
     componentDidMount() {
         this.state.Date = new Date().getDate();
+    }
+
+    validType(cur, type) {
+        const value = cur.target.value;
+        const nextState = {};
+        nextState[type] = value;
+        this.setState(nextState);
     }
 
     render() {
@@ -42,6 +52,7 @@ class FuelQuoteForm extends React.Component {
                     <TextField
                         id="filled-name"
                         type="number"
+                        onChange={GallonsRequested => this.validType(GallonsRequested, "number")}
                         label="Gallons Requested*"
                         style={{ margin: 8 }}
                         className={classes.textField}
