@@ -18,10 +18,12 @@ const styles = theme => ({
 });
 
 class Login extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state = {username: "", 
-                      password: ""};
+        this.state = {
+            username: "",
+            password: ""
+        };
     }
     componentDidMount() {
         /*overload*/
@@ -33,32 +35,32 @@ class Login extends React.Component {
             <Paper className={classes.container}>
                 <h1>Login</h1>
                 <form className={classes.container} noValidate autoComplete="off">
-                <TextField
-                    id="standard-name"
-                    label="Username"
-                    className={classes.textField}
-                    margin="normal"
-                    style={{ margin: 8 }}
-                />
-                <br></br>
-                <TextField
-                    
-                    id="standard-password-input"
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
-                    margin="normal"
-                    style={{ margin: 8 }}
-                />
-                <br></br>
-                <Button variant="contained" className={classes.button} type="submit" onClick = {this.props.handleSubmit}>
-                    Sign In
+                    <TextField
+                        id="standard-name"
+                        label="Username"
+                        className={classes.textField}
+                        margin="normal"
+                        style={{ margin: 8 }}
+                    />
+                    <br></br>
+                    <TextField
+
+                        id="standard-password-input"
+                        label="Password"
+                        type="password"
+                        autoComplete="current-password"
+                        margin="normal"
+                        style={{ margin: 8 }}
+                    />
+                    <br></br>
+                    <Button variant="contained" className={classes.button} type="submit" onClick={this.props.handleSubmit}>
+                        Sign In
                 </Button>
-                <br></br><br></br>
-                <Button>
-                 <a className={classes.linkStyles} href="/ClientRegistration"><Link to="/ClientRegistration">Sign Up
+                    <br></br><br></br>
+                    <Button>
+                        <a className={classes.linkStyles} href="/ClientRegistration"><Link to="/ClientRegistration">Sign Up
                 </Link></a></Button>
-            </form>
+                </form>
             </Paper>
         );
     }

@@ -30,6 +30,36 @@ class FuelQuoteForm extends React.Component {
     state = {
         Date: '',
         GallonsRequested: 0,
+        user_value1: 0,
+        user_value2: 0,
+        data: [],
+        from_backend1: 0,
+        from_backend2: 0,
+    }
+
+    getShipStatus() {
+        fetch('http://68.183.131.116:4000/get_shipstatus', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                pass_in_parameter1: this.state.user_value1,
+                pass_in_parameter2: this.state.user_value2
+            })
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.data.length !== 0) {
+                    this.setState({ done: false })
+                    this.setState({ data: result.data })
+                }
+                else {
+                    this.setState({ TrackingID: -1 })
+                    this.setState({ done: false })
+                }
+            })
+            .catch(err => this.setState({ TrackingID: -1 }))
     }
 
     componentDidMount() {
