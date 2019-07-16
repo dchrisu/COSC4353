@@ -35,12 +35,8 @@ var transporter = nodemailer.createTransport({
 app.use(cors());
 app.use(bodyParser.json())
 app.use('/', (req, res) => {
-<<<<<<< HEAD
     res.status(200).send('Hello World!');
-=======
-  res.status(200).send('Hello World!');
-  console.log(req.body)  
->>>>>>> bbe97764232798d146a307249a8b48be15e5bdd8
+    console.log(req.body)
 });
 
 app.post('/get_shipstatus', (req, res) => {
