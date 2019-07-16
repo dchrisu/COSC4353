@@ -56,6 +56,19 @@ class ClientRegistration extends React.Component {
 
     handleSubmit = event =>{
         /*alert(this.state.username);*/
+
+        fetch('localhost:5000', {
+             method: "POST",
+             headers: {
+            'Content-type': 'application/json'
+            },
+             body: JSON.stringify(this.state)
+            })
+            .then((response) => response.json())
+            .then((result) => {
+            console.log(result)
+            })
+
         alert("Account created.")
     }
 
