@@ -27,7 +27,7 @@ class FuelQuoteHistory extends React.Component {
     }
 
     getFuelQuoteHistory() {
-        fetch('http://localhost:5000/get_FuelQuoteHistory', {
+        fetch('http://localhost:3000/get_FuelQuoteHistory', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

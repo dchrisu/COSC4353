@@ -59,7 +59,7 @@ class FuelQuoteForm extends React.Component {
         })
             .then(res => res.json())
             .then(result => {
-                this.setState({ data: result.data })
+                this.setState({ data: result.data, from_backend1: result.data[0].key1, from_backend2: result.data[0].key2 })
             })
     }
 
@@ -94,7 +94,7 @@ class FuelQuoteForm extends React.Component {
                     <DialogTitle>{"Submission recieved!"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Data: {this.state.data}
+                            Data: {this.state.from_backend1} {this.state.from_backend2}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -166,6 +166,7 @@ class FuelQuoteForm extends React.Component {
                         variant="filled"
                     />
                 </form>
+
                 {
                     this.state.GallonsRequested !== 0 && this.state.Date !== '' ?
                         <Button size="medium" style={{ margin: 50 }} variant="contained" onClick={() => this.calcAmounts()}>

@@ -2,14 +2,15 @@ const express = require('express');
 //const cors = require('cors');
 const app = express();
 //const bodyParser = require('body-parser')
-var portX = 5000;
+var portX = 3000;
 
 //app.use(cors());
 //app.use(bodyParser.json())
+/*
 app.use('/', (req, res) => {
     res.status(200).send('Hello World!');
 })
-
+*/
 //Listen on port:
 app.listen(portX, () => {
     console.log("Listening on port: " + portX)
@@ -59,7 +60,7 @@ app.post('/post_FuelQuote', (req, res) => {
             }
         })
     */
-    return res.json({ data: results = { key1: "value1", key2: "value", key3: "", } })
+    return res.json({ data: results = { key1: "value1", key2: "value2", key3: "", } })
 });
 
 
@@ -80,11 +81,11 @@ app.post('/get_FuelQuoteHistory', (req, res) => {
     */
     return res.json({
         data: results = [
-            { Gallons: 5, Address: '3000 House Street', Date: '2/14/2019', Price: '$432.23', Total: '$1000.66' },
-            { Gallons: 4, Address: '12 Tet Canal', Date: '3/7/2019', Price: '$15.23', Total: '$190.32' },
-            { Gallons: 23, Address: '3399 Street Place', Date: '3/30/2019', Price: '$23.23', Total: '$300.00' },
-            { Gallons: 1, Address: '987 Nice Place', Date: '4/15/2019', Price: '$843.23', Total: '$2054.11' },
-            { Gallons: 3, Address: '4265 Area Farm', Date: '7/2/2019', Price: '$10.23', Total: '$145.00' }
+            { GallonsRequested: 5, Date: '2/14/2019', Price: '$432.23', Total: '$1000.66' },
+            { GallonsRequested: 4, Date: '3/7/2019', Price: '$15.23', Total: '$190.32' },
+            { GallonsRequested: 23, Date: '3/30/2019', Price: '$23.23', Total: '$300.00' },
+            { GallonsRequested: 1, Date: '4/15/2019', Price: '$843.23', Total: '$2054.11' },
+            { GallonsRequested: 3, Date: '7/2/2019', Price: '$10.23', Total: '$145.00' }
         ]
     })
 });
