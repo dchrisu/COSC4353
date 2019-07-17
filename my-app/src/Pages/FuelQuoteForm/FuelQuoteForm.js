@@ -7,6 +7,12 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 const styles = theme => ({
     container: {
@@ -30,40 +36,34 @@ class FuelQuoteForm extends React.Component {
     state = {
         Date: '',
         GallonsRequested: 0,
+        SuggestedPrice: 0,
+        TotalAmountDue: 0,
         user_value1: 0,
         user_value2: 0,
         data: [],
         from_backend1: 0,
         from_backend2: 0,
+        openData: false,
     }
 
-    getShipStatus() {
-        fetch('http://68.183.131.116:4000/get_shipstatus', {
+    postFuelQuote() {
+        fetch('http://localhost:5000/post_FuelQuote', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                pass_in_parameter1: this.state.user_value1,
-                pass_in_parameter2: this.state.user_value2
+                pass_in_parameter1: this.state.SuggestedPrice,
+                pass_in_parameter2: this.state.TotalAmountDue,
             })
         })
             .then(res => res.json())
             .then(result => {
-                if (result.data.length !== 0) {
-                    this.setState({ done: false })
-                    this.setState({ data: result.data })
-                }
-                else {
-                    this.setState({ TrackingID: -1 })
-                    this.setState({ done: false })
-                }
+                this.setState({ data: result.data })
             })
-            .catch(err => this.setState({ TrackingID: -1 }))
     }
 
     componentDidMount() {
-        this.state.Date = new Date().getDate();
     }
 
     validType(cur, type) {
@@ -73,21 +73,48 @@ class FuelQuoteForm extends React.Component {
         this.setState(nextState);
     }
 
+    handleChange = (name, val) => {
+        this.setState({ [name]: val });
+    }
+
+    calcAmounts() {
+        var sugprice = this.state.GallonsRequested * 2;
+        this.setState({ SuggestedPrice: sugprice });
+        this.setState({ TotalAmountDue: sugprice * 1.24 })
+    }
+
     render() {
         const { classes } = this.props;
         return (
             <Paper className={classes.container}>
+                <Dialog
+                    open={this.state.openData}
+                    keepMounted
+                >
+                    <DialogTitle>{"Submission recieved!"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Data: {this.state.data}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ openData: false })}>
+                            Close
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <h1>Fuel Quote Form</h1>
                 <form noValidate autoComplete="off">
                     <TextField
                         id="filled-name"
                         type="number"
-                        onChange={GallonsRequested => this.validType(GallonsRequested, "number")}
-                        label="Gallons Requested*"
+                        name="GallonsRequested"
+                        required
+                        onChange={e => this.handleChange(e.target.name, e.target.value)}
+                        label="Gallons Requested"
                         style={{ margin: 8 }}
                         className={classes.textField}
                         margin="normal"
-                        variant="filled"
                     />
                     <TextField
                         disabled
@@ -100,10 +127,13 @@ class FuelQuoteForm extends React.Component {
                         variant="filled"
                     />
                     <TextField
-                        id="date"
+                        id="Date"
                         label="Delivery Date"
+                        required
                         type="date"
                         defaultValue={this.state.Date}
+                        name="Date"
+                        onChange={e => this.handleChange(e.target.name, e.target.value)}
                         className={classes.textField}
                         InputLabelProps={{
                             shrink: true,
@@ -115,6 +145,7 @@ class FuelQuoteForm extends React.Component {
                         label="Suggested Price"
                         defaultValue="Waiting for input..."
                         className={classes.textField}
+                        value={this.state.SuggestedPrice}
                         margin="normal"
                         InputProps={{
                             readOnly: true,
@@ -124,25 +155,38 @@ class FuelQuoteForm extends React.Component {
                     <TextField
                         disabled
                         id="filled-disabled"
-                        defaultValue="Total Amount Due"
+                        label="Total Amount Due"
+                        defaultValue="Waiting for input..."
                         className={classes.textField}
                         margin="normal"
+                        value={this.state.TotalAmountDue}
                         InputProps={{
                             readOnly: true,
                         }}
                         variant="filled"
                     />
                 </form>
-
-                <Button size="medium" style={{ margin: 50 }} variant="contained">
-                    Get Price
-                    </Button>
-
+                {
+                    this.state.GallonsRequested !== 0 && this.state.Date !== '' ?
+                        <Button size="medium" style={{ margin: 50 }} variant="contained" onClick={() => this.calcAmounts()}>
+                            Get Price
+                    </Button > :
+                        <Button size="medium" style={{ margin: 50 }} disabled variant="contained">
+                            Get Price
+                    </Button >
+                }
                 <br></br>
-                <Button size="large" style={{ margin: 50 }} disabled variant="contained">
-                    Submit
+                {
+                    this.state.GallonsRequested !== 0 && this.state.Date !== '' && this.state.SuggestedPrice !== 0 && this.state.TotalAmountDue !== 0 ?
+                        <Button size="large" style={{ margin: 50 }} variant="contained" onClick={() => { this.postFuelQuote(); this.state.openData = true; }}>
+                            Submit
+                    </Button> :
+                        <Button size="large" style={{ margin: 50 }} disabled variant="contained">
+                            Submit
                 </Button>
-            </Paper>
+                }
+
+            </Paper >
         );
     }
 }
