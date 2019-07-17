@@ -56,7 +56,6 @@ class FuelQuoteHistory extends React.Component {
                     <TableHead>
                         <TableRow>
                             <TableCell align="left">Gallons Requested</TableCell>
-                            <TableCell align="left">Delivery Address</TableCell>
                             <TableCell align="left">Delivery Date</TableCell>
                             <TableCell align="left">Suggested Price</TableCell>
                             <TableCell align="left">Total Amount Due</TableCell>
@@ -66,7 +65,6 @@ class FuelQuoteHistory extends React.Component {
                         {this.state.data.map(row => (
                             <TableRow>
                                 <TableCell align="left"> {row.Gallons} </TableCell>
-                                <TableCell align="left"> {row.Address}</TableCell>
                                 <TableCell align="left"> {row.Date}</TableCell>
                                 <TableCell align="left"> {row.Price} </TableCell>
                                 <TableCell align="left"> {row.Total} </TableCell>

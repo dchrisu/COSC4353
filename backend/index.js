@@ -17,10 +17,10 @@ app.listen(portX, () => {
 
 /*
 const connection = mysql.createConnection({
-    host: '',
+    host: 'rds-mysql-4353project.c4g1feomwyfl.us-east-1.rds.amazonaws.com',
     port: '',
-    user: '',
-    password: '',
+    user: 'masterUsername',
+    password: 'deMesa889',
     database: ''
 })*/
 /*
@@ -41,6 +41,7 @@ var transporter = nodemailer.createTransport({
         pass: ''
     }
 });*/
+
 
 
 app.post('/post_FuelQuote', (req, res) => {
