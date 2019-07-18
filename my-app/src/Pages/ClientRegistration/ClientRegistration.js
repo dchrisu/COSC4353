@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import Login from './Login';
 
 
 const styles = theme => ({
@@ -22,9 +21,13 @@ const styles = theme => ({
 class ClientRegistration extends React.Component {
     constructor(props){
         super(props);
-        this.state = {username: "", 
-                      password: "",
-                      confirmPassword: ""};
+        this.state = {username: "default", 
+                      password: "default",
+                      confirmPassword: "",
+                      data: [],
+                      from_backend1: 0,
+                      from_backend2: 0,
+                    };
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -55,18 +58,21 @@ class ClientRegistration extends React.Component {
     }
 
     handleSubmit = event =>{
-        /*alert(this.state.username);*/
+        alert(this.state.username);
 
-        fetch('localhost:5000', {
+        fetch('http://localhost:5000/post_ClientRegistration', {
              method: "POST",
              headers: {
             'Content-type': 'application/json'
             },
-             body: JSON.stringify(this.state)
+             body: JSON.stringify({
+                param1: this.state.username,
+                param2: this.state.password,
+             })
             })
-            .then((response) => response.json())
-            .then((result) => {
-            console.log(result)
+            .then(res => res.json())
+            .then(result => {
+                this.setState({ data: result.data, from_backend1: result.data[0].key1, from_backend2: result.data[0].key2 })
             })
 
         alert("Account created.")

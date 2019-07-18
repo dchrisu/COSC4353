@@ -20,25 +20,108 @@ const styles = theme => ({
 class Login extends React.Component {
     constructor(props){
         super(props);
-        this.state = {username: "", 
-                      password: ""};
+        this.state = {username: "testing", 
+                      password: "testing",
+                      usernameFromBackend: [],
+                      passwordFromBackend: [],
+                      data: {}};
     }
     componentDidMount() {
         /*overload*/
     }
 
+    handleChangeUsername = event =>{
+        this.setState({username: event.target.value})
+    }
+
+    handleChangePassword = event =>{
+        this.setState({password: event.target.value})
+    }
+
+    getLoginInfo = event =>{
+        //alert(this.state.username);
+
+        fetch('http://localhost:5000/get_Login', {
+             method: "POST",
+             headers: {
+            'Content-type': 'application/json'
+            },
+             body: JSON.stringify({
+                param1: this.state.username,
+             })
+            })
+            .then(res => res.json())
+            .then(result => {
+                //this.setState({ data: result.data})
+                this.setState({ data: result.data, usernameFromBackend: result.data[0].Username, passwordFromBackend: result.data[0].UserPassword })
+
+                //this.state.usernameFromBackend = JSON.stringify(this.state.usernameFromBackend)
+                //this.state.passwordFromBackend = JSON.stringify(this.state.passwordFromBackend)
+
+                //alert(JSON.stringify(this.state.data));
+                //alert(this.state.passwordFromBackend)
+
+                var UFB = JSON.stringify(this.state.usernameFromBackend)
+                var PFB = JSON.stringify(this.state.passwordFromBackend)
+
+                //UFB = UFB.replace(/\"/g, "") 
+                //PFB = PFB.replace(/\"/g, "") 
+
+                var a = '"';
+                var b = '"';
+
+               // var z = '${a} ${this.state.username} ${b}'
+               var userInputtedUsername = a + this.state.username + b
+               var userInputtedPassword = a + this.state.password + b
+
+                //alert(z)
+                //UFB = UFB.substring(1, UFB.length()-1);
+                //PFB = PFB.substring(1, PFB.length()-1);
+
+                if ((UFB) == userInputtedUsername && (PFB) == userInputtedPassword) {
+                    alert("Login Successful.")
+                    
+                }
+                else {
+                    alert("Wrong username / password combination.")
+                }    
+                
+             
+                //alert("POG");
+
+                
+            })
+
+            {
+                /*
+                alert(this.state.passwordFromBackend)
+                
+                (this.state.usernameFromBackend) !== this.state.username && (this.state.passwordFromBackend) !== this.state.password ?
+                    alert("Wrong username / password combination.")
+                    //alert(this.state.usernameFromBackend)
+                    
+                :
+                alert("Login Successful.")
+                */
+                
+            }
+
+        //alert(this.state.data);
+    }
+ 
     render() {
         const { classes } = this.props;
         return (
             <Paper className={classes.container}>
                 <h1>Login</h1>
-                <form className={classes.container} noValidate autoComplete="off">
+                <form className={classes.container} noValidate autoComplete="off" onSubmit = {this.getLoginInfo}>
                 <TextField
                     id="standard-name"
                     label="Username"
                     className={classes.textField}
                     margin="normal"
                     style={{ margin: 8 }}
+                    onChange={this.handleChangeUsername}
                 />
                 <br></br>
                 <TextField
@@ -49,16 +132,19 @@ class Login extends React.Component {
                     autoComplete="current-password"
                     margin="normal"
                     style={{ margin: 8 }}
+                    onChange={this.handleChangePassword}
                 />
                 <br></br>
-                <Button variant="contained" className={classes.button}>
+                <Button variant="contained" className={classes.button} type = "submit">
                     Sign In
                 </Button>
                 <br></br><br></br>
+                </form>
+                
                 <Button>
-                 <a className={classes.linkStyles} href="/ClientRegistration"><Link to="/ClientRegistration">Sign Up
+                <a className={classes.linkStyles} href="/ClientRegistration"><Link to="/ClientRegistration">Sign Up
                 </Link></a></Button>
-            </form>
+            
             </Paper>
         );
     }
