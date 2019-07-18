@@ -36,6 +36,8 @@ class FuelQuoteForm extends React.Component {
     state = {
         Date: '',
         GallonsRequested: 0,
+        valid_GallonsRequested: true,
+        open_GallonsRequested: false,
         SuggestedPrice: 0,
         TotalAmountDue: 0,
         user_value1: 0,
@@ -78,15 +80,38 @@ class FuelQuoteForm extends React.Component {
     }
 
     calcAmounts() {
-        var sugprice = this.state.GallonsRequested * 2;
-        this.setState({ SuggestedPrice: sugprice });
-        this.setState({ TotalAmountDue: sugprice * 1.24 })
+        //Check regex for any nonnumeric
+        var regex = new RegExp("^\\d+$")
+        if (regex.test(this.state.GallonsRequested)) {
+            var sugprice = this.state.GallonsRequested * 2;
+            this.setState({ SuggestedPrice: sugprice });
+            this.setState({ TotalAmountDue: sugprice * 1.24 })
+        }
+        else {
+            this.setState({ open_GallonsRequested: true })
+        }
     }
 
     render() {
         const { classes } = this.props;
         return (
             <Paper className={classes.container}>
+                <Dialog
+                    open={this.state.open_GallonsRequested}
+                    keepMounted
+                >
+                    <DialogTitle>{"Invalid input!"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Invalid Gallons Requested entry.
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => this.setState({ open_GallonsRequested: false })}>
+                            Close
+                </Button>
+                    </DialogActions>
+                </Dialog>
                 <Dialog
                     open={this.state.openData}
                     keepMounted
@@ -107,7 +132,7 @@ class FuelQuoteForm extends React.Component {
                 <form noValidate autoComplete="off">
                     <TextField
                         id="filled-name"
-                        type="number"
+                        type="text"
                         name="GallonsRequested"
                         required
                         onChange={e => this.handleChange(e.target.name, e.target.value)}
@@ -166,9 +191,8 @@ class FuelQuoteForm extends React.Component {
                         variant="filled"
                     />
                 </form>
-
                 {
-                    this.state.GallonsRequested !== 0 && this.state.Date !== '' ?
+                    this.state.GallonsRequested !== 0 && this.state.Date !== '' && this.state.valid_GallonsRequested ?
                         <Button size="medium" style={{ margin: 50 }} variant="contained" onClick={() => this.calcAmounts()}>
                             Get Price
                     </Button > :
@@ -178,7 +202,7 @@ class FuelQuoteForm extends React.Component {
                 }
                 <br></br>
                 {
-                    this.state.GallonsRequested !== 0 && this.state.Date !== '' && this.state.SuggestedPrice !== 0 && this.state.TotalAmountDue !== 0 ?
+                    this.state.GallonsRequested !== 0 && this.state.Date !== '' && this.state.SuggestedPrice !== 0 && this.state.TotalAmountDue !== 0 && this.state.valid_GallonsRequested ?
                         <Button size="large" style={{ margin: 50 }} variant="contained" onClick={() => { this.postFuelQuote(); this.state.openData = true; }}>
                             Submit
                     </Button> :
