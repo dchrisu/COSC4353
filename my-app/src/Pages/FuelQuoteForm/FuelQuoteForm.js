@@ -34,20 +34,40 @@ const styles = theme => ({
 
 class FuelQuoteForm extends React.Component {
     state = {
+        cur_User: 0,
+
         Date: '',
         GallonsRequested: 0,
         valid_GallonsRequested: true,
-        open_GallonsRequested: false,
+        DeliveryAddress: '',
+        DeliveryDate: '',
         SuggestedPrice: 0,
         TotalAmountDue: 0,
-        user_value1: 0,
-        user_value2: 0,
         data: [],
-        from_backend1: 0,
-        from_backend2: 0,
         openData: false,
+        open_GallonsRequested: false,
     }
 
+    //Grab from sessionstorage, the current logged in User's address 
+    // for Delivery Address field.
+    getClientAddress() {
+        fetch('http://localhost:5000/get_ClientAddress', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                pass_in_parameter1: this.state.cur_User,
+            })
+        })
+            .then(res => res.json())
+            .then(result => {
+                this.setState({ data: result.data[0].DeliveryAddress })
+            })
+    }
+
+    //Finish the SUBMISSION using Submit button, this will 
+    // INSERT INTO FuelQuoteHistory table.
     postFuelQuote() {
         fetch('http://localhost:5000/post_FuelQuote', {
             method: "POST",
@@ -55,8 +75,10 @@ class FuelQuoteForm extends React.Component {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                pass_in_parameter1: this.state.SuggestedPrice,
-                pass_in_parameter2: this.state.TotalAmountDue,
+                param_GallonsRequested: this.state.GallonsRequested,
+                param_DeliveryDate: this.state.DeliveryDate,
+                param_SuggestedPrice: this.state.SuggestedPrice,
+                param_TotalAmountDue: this.state.TotalAmountDue,
             })
         })
             .then(res => res.json())
@@ -65,7 +87,30 @@ class FuelQuoteForm extends React.Component {
             })
     }
 
+    //Use this function whenever the fields are satisfied.
+    // Make a call to the backend that returns the final calculated value
+    // based on the pricing module.
+    postPricingModule() {
+        fetch('http://localhost:5000/post_PricingModule', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                param_GallonsRequested: this.state.GallonsRequested,
+                param_Address: this.state.DeliveryAddress,
+                param_Date: this.state.DeliveryDate,
+            })
+        })
+            .then(res => res.json())
+            .then(result => {
+                this.setState({ data: result.data[0].SuggestedPrice })
+            })
+    }
+
     componentDidMount() {
+        //Before render, make sure to populate the Delivery Address from the DB
+        //this.getClientAddress();
     }
 
     validType(cur, type) {
@@ -83,11 +128,19 @@ class FuelQuoteForm extends React.Component {
         //Check regex for any nonnumeric
         var regex = new RegExp("^\\d+$")
         if (regex.test(this.state.GallonsRequested)) {
+            //Placeholder algo
             var sugprice = this.state.GallonsRequested * 2;
             this.setState({ SuggestedPrice: sugprice });
             this.setState({ TotalAmountDue: sugprice * 1.24 })
+
+            //Make the backend call to calculate using Pricing Module
+            //this.postPricingModule(); 
+            //var TotalCalc = this.state.GallonsRequested * this.state.SuggestedPrice;
+            //this.setState({ TotalAmountDue: TotalCalc })
         }
         else {
+            //Open up dialog window telling user that their 
+            // "Gallons Requested" input is not valid.
             this.setState({ open_GallonsRequested: true })
         }
     }
@@ -119,7 +172,7 @@ class FuelQuoteForm extends React.Component {
                     <DialogTitle>{"Submission recieved!"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Data: {this.state.from_backend1} {this.state.from_backend2}
+                            We have submitted your Fuel Quote! Check Fuel Quote History for more information.
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
