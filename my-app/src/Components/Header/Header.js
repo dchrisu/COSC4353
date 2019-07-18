@@ -40,6 +40,12 @@ const styles = theme => ({
 
 
 class Header extends Component {
+    state = {
+        cur_User: 0,
+        user_LoggedIn: false,
+        debugMode: true,
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -47,12 +53,33 @@ class Header extends Component {
                 <AppBar position="static">
                     <Menu>
                         <ul style={{ listStyleType: 'none', width: '100%' }}>
-                            <li class={classes.home}><Link to="/" class={classes.linkStyles}>Home</Link></li>
-                            <li class={classes.gridItem}><Link to="/Login" class={classes.linkStyles}>Login</Link></li>
-                            <li class={classes.gridItem}><Link to="/ClientRegistration" class={classes.linkStyles}>Register</Link></li>
-                            <li class={classes.gridItem}><Link to="/ClientProfileManagement" class={classes.linkStyles}>Profile</Link></li>
-                            <li class={classes.gridItem}><Link to="/FuelQuoteForm" class={classes.linkStyles}>Fuel Quote</Link></li>
-                            <li class={classes.gridItem}><Link to="/FuelQuoteHistory" class={classes.linkStyles}>Quote History</Link></li>
+
+                            {this.state.debugMode === true ?
+                                <Fragment>
+                                    <li class={classes.home}><Link to="/" class={classes.linkStyles}>Home</Link></li>
+                                    <li class={classes.gridItem}><Link to="/ClientProfileManagement" class={classes.linkStyles}>Profile</Link></li>
+                                    <li class={classes.gridItem}><Link to="/FuelQuoteHistory" class={classes.linkStyles}>Check Quote History</Link></li>
+                                    <li class={classes.gridItem}><Link to="/FuelQuoteForm" class={classes.linkStyles}>Get Fuel Quote</Link></li>
+                                    <li class={classes.home}><Link to="/" class={classes.linkStyles}>Home</Link></li>
+                                    <li class={classes.gridItem}><Link to="/Login" class={classes.linkStyles}>Login</Link></li>
+                                </Fragment>
+                                :
+                                <Fragment>
+                                    {this.state.user_LoggedIn === true ?
+                                        <Fragment>
+                                            <li class={classes.home}><Link to="/" class={classes.linkStyles}>Home</Link></li>
+                                            <li class={classes.gridItem}><Link to="/ClientProfileManagement" class={classes.linkStyles}>Profile</Link></li>
+                                            <li class={classes.gridItem}><Link to="/FuelQuoteHistory" class={classes.linkStyles}>Check Quote History</Link></li>
+                                            <li class={classes.gridItem}><Link to="/FuelQuoteForm" class={classes.linkStyles}>Get Fuel Quote</Link></li>
+                                        </Fragment>
+                                        :
+                                        <Fragment>
+                                            <li class={classes.home}><Link to="/" class={classes.linkStyles}>Home</Link></li>
+                                            <li class={classes.gridItem}><Link to="/Login" class={classes.linkStyles}>Login</Link></li>
+                                        </Fragment>
+                                    }
+                                </Fragment>
+                            }
                         </ul>
                     </Menu>
                 </AppBar>
