@@ -51,8 +51,8 @@ class Header extends Component {
                             <li class={classes.gridItem}><Link to="/Login" class={classes.linkStyles}>Login</Link></li>
                             <li class={classes.gridItem}><Link to="/ClientRegistration" class={classes.linkStyles}>Register</Link></li>
                             <li class={classes.gridItem}><Link to="/ClientProfileManagement" class={classes.linkStyles}>Profile</Link></li>
-                            <li class={classes.gridItem}><Link to="/FuelQuoteForm" class={classes.linkStyles}>Fuel Quote</Link></li>
-                            <li class={classes.gridItem}><Link to="/FuelQuoteHistory" class={classes.linkStyles}>Quote History</Link></li>
+                            <li class={classes.gridItem}><Link to="/FuelQuoteHistory" class={classes.linkStyles}>Check Quote History</Link></li>
+                            <li class={classes.gridItem}><Link to="/FuelQuoteForm" class={classes.linkStyles}>Get Fuel Quote</Link></li>
                         </ul>
                     </Menu>
                 </AppBar>
