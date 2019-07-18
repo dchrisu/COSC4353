@@ -15,29 +15,27 @@ const styles = theme => ({
         overflowX: 'auto',
     },
     linkStyles: {
-        color: 'white'
+        textDecoration: 'none',
+        color: 'white',
+        fontWeight: 'bold',
+        '&:hover': {
+            backgroundColor: 'black'
+        }
     },
     gridItem: {
         textAlign: 'center',
         width: '10%',
         display: 'inline-block',
         float: 'right',
+        color: 'red',
+        paddingLeft: '12px',
+        paddingRight: '12px',
     },
     home: {
         width: '10%',
         display: 'inline-block',
         float: 'left',
     },
-    a: {
-        link: {
-            textDecoration: 'none',
-            color: 'white',
-        },
-        visited: {
-            textDecoration: 'none',
-            color: 'white',
-        }
-    }
 });
 
 
@@ -49,16 +47,12 @@ class Header extends Component {
                 <AppBar position="static">
                     <Menu>
                         <ul style={{ listStyleType: 'none', width: '100%' }}>
-                            <li class={classes.home}><Link to="/">Home</Link></li>
-                            <li class={classes.gridItem}><Link to="/Login">Login</Link></li>
-                            <li class={classes.gridItemPadding}></li>
-                            <li class={classes.gridItem}><Link to="/ClientRegistration">Register</Link></li>
-                            <li class={classes.gridItemPadding}></li>
-                            <li class={classes.gridItem}><Link to="/ClientProfileManagement">Profile</Link></li>
-                            <li class={classes.gridItemPadding}></li>
-                            <li class={classes.gridItem}><Link to="/FuelQuoteForm">Fuel Quote</Link></li>
-                            <li class={classes.gridItemPadding}></li>
-                            <li class={classes.gridItem}><Link to="/FuelQuoteHistory">Quote History</Link></li>
+                            <li class={classes.home}><Link to="/" class={classes.linkStyles}>Home</Link></li>
+                            <li class={classes.gridItem}><Link to="/Login" class={classes.linkStyles}>Login</Link></li>
+                            <li class={classes.gridItem}><Link to="/ClientRegistration" class={classes.linkStyles}>Register</Link></li>
+                            <li class={classes.gridItem}><Link to="/ClientProfileManagement" class={classes.linkStyles}>Profile</Link></li>
+                            <li class={classes.gridItem}><Link to="/FuelQuoteForm" class={classes.linkStyles}>Fuel Quote</Link></li>
+                            <li class={classes.gridItem}><Link to="/FuelQuoteHistory" class={classes.linkStyles}>Quote History</Link></li>
                         </ul>
                     </Menu>
                 </AppBar>
