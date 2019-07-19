@@ -28,23 +28,30 @@ class FuelQuoteHistory extends React.Component {
     }
 
     getFuelQuoteHistory() {
-        fetch('http://localhost:3000/get_FuelQuoteHistory', {
+        fetch('http://localhost:5000/get_FuelQuoteHistory', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                pass_in_parameter1: this.state.User,
+                param_cur_User: this.state.cur_User,
             })
         })
             .then(res => res.json())
             .then(result => {
-                this.setState({ data: result.data })
+                if (result.data.length !== 0) {
+                    this.setState({ data: result.data })
+                }
+                else {
+                    console.log("Empty dataset!")
+                }
             })
     }
 
     componentDidMount() {
         //Get Fuel Quote History based on User
+        var localUser = localStorage.getItem("USERFK");
+        this.state.cur_User = localUser;
         this.getFuelQuoteHistory();
     }
 
@@ -65,10 +72,10 @@ class FuelQuoteHistory extends React.Component {
                     <TableBody>
                         {this.state.data.map(row => (
                             <TableRow>
-                                <TableCell align="left"> {row.Gallons} </TableCell>
-                                <TableCell align="left"> {row.Date}</TableCell>
-                                <TableCell align="left"> {row.Price} </TableCell>
-                                <TableCell align="left"> {row.Total} </TableCell>
+                                <TableCell align="left"> {row.GallonsRequested} Gallons</TableCell>
+                                <TableCell align="left"> {row.DeliveryDate.substring(5, 7) + "/" + row.DeliveryDate.substring(8, 10) + "/" + row.DeliveryDate.substring(0, 4)}</TableCell>
+                                <TableCell align="left"> ${row.SuggestedPrice.toFixed(2)}/gal</TableCell>
+                                <TableCell align="left"> ${row.TotalAmountDue.toFixed(2)} </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
