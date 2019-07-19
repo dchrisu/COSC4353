@@ -126,12 +126,6 @@ app.post('/get_Login', (req, res) => {
 
 app.post('/post_ClientProfileManagementFirstLogin', (req, res) => {
     const { param1, param2, param3, param4, param5, param6, param7, param8 } = req.body;
-    //console.log(req.body.param1);
-    /*var parameters = [
-        {name: 'Username', sqltype: mysql.VarChar, value: req.body.param1},
-        {name: 'Password', sqltype: mysql.VarChar, value: req.body.param2}
-    ]
-    */
     
     connection.query("UPDATE ClientInfo SET FirstName = '" +req.body.param1+"', LastName = '" +req.body.param2+"', Address1 = '" +req.body.param3+"', Address2 = '" +req.body.param4+"', City = '" +req.body.param5+"', State = '" +req.body.param6+"', Zipcode = '" +req.body.param7+"' WHERE ClientPK = '"+req.body.param8+"'"
         , function (err, results) {

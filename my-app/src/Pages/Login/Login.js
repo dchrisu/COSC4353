@@ -55,28 +55,15 @@ class Login extends React.Component {
                 //this.setState({ data: result.data})
                 this.setState({ data: result.data, usernameFromBackend: result.data[0].Username, passwordFromBackend: result.data[0].UserPassword })
 
-                //this.state.usernameFromBackend = JSON.stringify(this.state.usernameFromBackend)
-                //this.state.passwordFromBackend = JSON.stringify(this.state.passwordFromBackend)
-
-                //alert(JSON.stringify(this.state.data));
-                //alert(this.state.passwordFromBackend)
-
                 var UFB = JSON.stringify(this.state.usernameFromBackend)
                 var PFB = JSON.stringify(this.state.passwordFromBackend)
-
-                //UFB = UFB.replace(/\"/g, "") 
-                //PFB = PFB.replace(/\"/g, "") 
 
                 var a = '"';
                 var b = '"';
 
-               // var z = '${a} ${this.state.username} ${b}'
                var userInputtedUsername = a + this.state.username + b
                var userInputtedPassword = a + this.state.password + b
 
-                //alert(z)
-                //UFB = UFB.substring(1, UFB.length()-1);
-                //PFB = PFB.substring(1, PFB.length()-1);
 
                 if ((UFB) == userInputtedUsername && (PFB) == userInputtedPassword) {
                     alert("Login Successful.")

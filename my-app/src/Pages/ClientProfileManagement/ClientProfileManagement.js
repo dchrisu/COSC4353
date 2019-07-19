@@ -6,6 +6,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
     container: {
@@ -236,7 +241,13 @@ class ClientProfileManagement extends React.Component {
                       USstate: "",
                       Zipcode: "",
                       FuelQuoteHistoryFK: "",
-                      data: []
+                      data: [],
+                      openFirstName: false,
+                      openLastName: false,
+                      openAddress1: false,
+                      openAddress2: false,
+                      openCity: false,
+                      openZipcode: false,
                     };
 
                       this.USstates = this.USstates;
@@ -317,14 +328,46 @@ class ClientProfileManagement extends React.Component {
 
         alert(this.state.USstate)
     }
+
+    formValidation = event => {
+      //Check regex for any nonnumeric
+      
+      var regex = new RegExp("^\\d+$")
+      if (!regex.test(this.state.Zipcode) || this.state.Zipcode.length <5 || this.state.Zipcode.length > 9) {
+         //this.setState({ openZipcode: true })
+         alert("Invalid zipcode entry. Must be between 5 and 9 characters long and only contain numbers.")
+      }
+      else if (this.state.FirstName.length > 50){
+        alert("First name entry must be below 50 characters in length")
+      }
+      else if (this.state.LastName.length > 50){
+        alert("Last name entry must be below 50 characters in length")
+      }
+      else if (this.state.Address1.length > 100){
+        alert("Address 1 entry must be below 50 characters in length")
+      }
+      else if (this.state.Address2.length > 100){
+        alert("Address 2 entry must be below 50 characters in length")
+      }
+      else if (this.state.City.length > 50){
+        alert("City entry must be below 50 characters in length")
+      }
+      else{
+        this.handleSubmit();
+      }
+
+  }
+
         
         
     render() {
         const { classes } = this.props;
         return (
             <Paper className={classes.container}>
+
+
                 <h1>Profile Information</h1>
-                <form className={classes.container} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+                <form className={classes.container} noValidate autoComplete="off" onSubmit={this.formValidation}>
                 <TextField
                     required
                     //onInput={(e) => {
