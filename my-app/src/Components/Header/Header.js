@@ -40,7 +40,7 @@ class Header extends Component {
     state = {
         cur_User: 0,
         user_LoggedIn: false,
-        debugMode: true,
+        debugMode: false,
     }
 
     render() {
@@ -73,6 +73,7 @@ class Header extends Component {
                                         <Fragment>
                                             <li class={classes.home}><Link to="/" class={classes.linkStyles}>Home</Link></li>
                                             <li class={classes.gridItem}><Link to="/Login" class={classes.linkStyles}>Login</Link></li>
+                                            <li class={classes.gridItem}><Link to="/ClientRegistration" class={classes.linkStyles}>Register</Link></li>
                                         </Fragment>
                                     }
                                 </Fragment>

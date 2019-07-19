@@ -81,14 +81,6 @@ app.post('/get_Login', (req, res) => {
 });
 
 
-/*
-var transporter = nodemailer.createTransport({
-    service: '',
-    auth: {
-        user: '',
-        pass: ''
-    }
-});*/
 
 
 
