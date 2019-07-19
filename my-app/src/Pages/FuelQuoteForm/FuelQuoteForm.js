@@ -126,14 +126,15 @@ class FuelQuoteForm extends React.Component {
         var regex = new RegExp("^\\d+$")
         if (regex.test(this.state.GallonsRequested)) {
             //Placeholder algo
+            /*
             var sugprice = this.state.GallonsRequested * 2;
             this.setState({ SuggestedPrice: sugprice });
-            this.setState({ TotalAmountDue: sugprice * 1.24 })
+            this.setState({ TotalAmountDue: sugprice * 1.24 })*/
 
             //Make the backend call to calculate using Pricing Module
-            //this.postPricingModule(); 
-            //var TotalCalc = this.state.GallonsRequested * this.state.SuggestedPrice;
-            //this.setState({ TotalAmountDue: TotalCalc })
+            this.postPricingModule(); 
+            var TotalCalc = this.state.GallonsRequested * this.state.SuggestedPrice;
+            this.setState({ TotalAmountDue: TotalCalc })
         }
         else {
             //Open up dialog window telling user that their 
@@ -182,7 +183,6 @@ class FuelQuoteForm extends React.Component {
                 <form noValidate autoComplete="off">
                     <TextField
                         id="filled-name"
-                        type="number"
                         name="GallonsRequested"
                         required
                         onChange={e => this.handleChange(e.target.name, e.target.value)}

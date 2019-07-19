@@ -1,35 +1,27 @@
 const express = require('express');
 const cors = require('cors');
+var mysql = require('mysql');
 const app = express();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 var portX = 5000;
 
 app.use(cors());
 app.use(bodyParser.json())
-/*
-app.use('/', (req, res) => {
-    res.status(200).send('Hello World!');
-})
-*/
+
+
+
 //Listen on port:
 app.listen(portX, () => {
     console.log("Listening on port: " + portX)
 });
 
-
-
-var mysql = require('mysql')
-
 const connection = mysql.createConnection({
-    host: 'rds-mysql-4353project.c4g1feomwyfl.us-east-1.rds.amazonaws.com',
+    host: 'localhost',
     port: '3306',
-    user: 'masterUsername',
-    password: 'deMesa889',
+    user: 'root',
+    password: 'Group2PO',
     database: 'SoftwareEngiProject2019'
-})
-
-
-
+});
 connection.connect(err => {
     if (err) {
         throw err;
@@ -66,7 +58,7 @@ app.post('/post_ClientRegistration', (req, res) => {
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
 
-app.po st('/get_Login', (req, res) => {
+app.post('/get_Login', (req, res) => {
     const { param1 } = req.body;
     console.log(req.body.param1);
 
@@ -144,3 +136,4 @@ app.post('/get_FuelQuoteHistory', (req, res) => {
         ]
     })
 });
+
