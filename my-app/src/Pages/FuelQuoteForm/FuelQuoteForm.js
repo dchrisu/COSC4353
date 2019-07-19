@@ -34,6 +34,7 @@ class FuelQuoteForm extends React.Component {
         cur_User: 0,
 
         Date: '',
+        FuelQuoteHistory_Flag: false,
         GallonsRequested: 0,
         valid_GallonsRequested: true,
         DeliveryAddress: '',
@@ -47,7 +48,7 @@ class FuelQuoteForm extends React.Component {
 
     //Grab from sessionstorage, the current logged in User's address 
     // for Delivery Address field.
-    getClientAddress() {
+    getClientAddressAndHistoryFlag() {
         fetch('http://localhost:5000/get_ClientAddress', {
             method: "GET",
             headers: {
@@ -59,7 +60,7 @@ class FuelQuoteForm extends React.Component {
         })
             .then(res => res.json())
             .then(result => {
-                this.setState({ data: result.data[0].DeliveryAddress })
+                this.setState({ DeliveryAddress: result.data[0].DeliveryAddress, FuelQuoteHistory_Flag: result.data[0].FuelQuoteHistory_Flag })
             })
     }
 
@@ -76,6 +77,7 @@ class FuelQuoteForm extends React.Component {
                 param_DeliveryDate: this.state.DeliveryDate,
                 param_SuggestedPrice: this.state.SuggestedPrice,
                 param_TotalAmountDue: this.state.TotalAmountDue,
+                param_User: this.state.cur_User,
             })
         })
             .then(res => res.json())
@@ -97,6 +99,7 @@ class FuelQuoteForm extends React.Component {
                 param_GallonsRequested: this.state.GallonsRequested,
                 param_Address: this.state.DeliveryAddress,
                 param_Date: this.state.DeliveryDate,
+                param_User: this.state.cur_User,
             })
         })
             .then(res => res.json())
@@ -107,7 +110,8 @@ class FuelQuoteForm extends React.Component {
 
     componentDidMount() {
         //Before render, make sure to populate the Delivery Address from the DB
-        //this.getClientAddress();
+        this.setState({ cur_User: localStorage.getItem(cur_User) });
+        this.getClientAddress();
     }
 
     validType(cur, type) {
@@ -125,14 +129,8 @@ class FuelQuoteForm extends React.Component {
         //Check regex for any nonnumeric
         var regex = new RegExp("^\\d+$")
         if (regex.test(this.state.GallonsRequested)) {
-            //Placeholder algo
-            /*
-            var sugprice = this.state.GallonsRequested * 2;
-            this.setState({ SuggestedPrice: sugprice });
-            this.setState({ TotalAmountDue: sugprice * 1.24 })*/
-
             //Make the backend call to calculate using Pricing Module
-            this.postPricingModule(); 
+            this.postPricingModule();
             var TotalCalc = this.state.GallonsRequested * this.state.SuggestedPrice;
             this.setState({ TotalAmountDue: TotalCalc })
         }

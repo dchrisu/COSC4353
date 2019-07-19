@@ -21,8 +21,9 @@ const styles = theme => ({
 
 class FuelQuoteHistory extends React.Component {
     state = {
+        cur_User: 0,
+
         CurrentDate: '',
-        User: '',
         data: [],
     }
 

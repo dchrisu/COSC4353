@@ -82,7 +82,62 @@ app.post('/get_Login', (req, res) => {
 
 
 
+app.post('/post_PricingModule', (req, res) => {
+    const { param_GallonsRequested, param_Address, param_Date, param_User, param_FuelQuoteHistory_Flag } = req.body;
 
+    //Algorithm
+    //Current Price per Gallon *
+    var PricePerGallon = 1.50;
+
+    //Location Factor *
+    var regex = new RegExp("$TX$")
+    var LocationFactor;
+    if (regex.test(param_Address)) { LocationFactor = .02; }
+    else { LocationFactor = .04; }
+
+    //Rate History Factor *
+    var RateHistoryFactor;
+    if (param_FuelQuoteHistory_Flag) { RateHistoryFactor = .01; }
+    else { RateHistoryFactor = 0; }
+
+
+    //Gallons Requested Factor *
+    var GallonsRequestedFactor;
+    if (param_GallonsRequested > 1000) { GallonsRequestedFactor = .02; }
+    else { GallonsRequestedFactor = .03; }
+
+    //Company Profit Factor *
+    var CompanyProfitFactor = .1;
+
+
+    //Rate Fluctuation *
+    var RateFluctuationFactor;
+    if (param_Date) { RateFluctuationFactor = 0.04; }
+    else { RateFluctuationFactor = 0.03; }
+
+    //Final Calculation * 
+    var SuggestedRatePerGallon = PricePerGallon + (LocationFactor - RateHistoryFactor + GallonsRequestedFactor + CompanyProfitFactor + RateFluctuationFactor) * PricePerGallon;
+
+    return res.json({ data: results = { SuggestedPrice: SuggestedRatePerGallon } })
+});
+
+app.post('/getClientAddressAndHistoryFlag', (req, res) => {
+    const { pass_in_parameter1, pass_in_parameter2 } = req.body;
+    /*
+    connection.query(`INSERT INTO table.FuelQuoteHistory ()`
+        , function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                return res.json({
+                    data: results
+                })
+            }
+        })
+    */
+    return res.json({ data: results = { key1: "value1", key2: "value2", key3: "", } })
+});
 
 app.post('/post_FuelQuote', (req, res) => {
     const { pass_in_parameter1, pass_in_parameter2 } = req.body;
