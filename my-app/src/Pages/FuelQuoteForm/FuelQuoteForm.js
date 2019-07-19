@@ -4,9 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -129,14 +126,15 @@ class FuelQuoteForm extends React.Component {
         var regex = new RegExp("^\\d+$")
         if (regex.test(this.state.GallonsRequested)) {
             //Placeholder algo
+            /*
             var sugprice = this.state.GallonsRequested * 2;
             this.setState({ SuggestedPrice: sugprice });
-            this.setState({ TotalAmountDue: sugprice * 1.24 })
+            this.setState({ TotalAmountDue: sugprice * 1.24 })*/
 
             //Make the backend call to calculate using Pricing Module
-            //this.postPricingModule(); 
-            //var TotalCalc = this.state.GallonsRequested * this.state.SuggestedPrice;
-            //this.setState({ TotalAmountDue: TotalCalc })
+            this.postPricingModule(); 
+            var TotalCalc = this.state.GallonsRequested * this.state.SuggestedPrice;
+            this.setState({ TotalAmountDue: TotalCalc })
         }
         else {
             //Open up dialog window telling user that their 
@@ -185,7 +183,6 @@ class FuelQuoteForm extends React.Component {
                 <form noValidate autoComplete="off">
                     <TextField
                         id="filled-name"
-                        type="text"
                         name="GallonsRequested"
                         required
                         onChange={e => this.handleChange(e.target.name, e.target.value)}

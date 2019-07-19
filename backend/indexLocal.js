@@ -1,35 +1,27 @@
 const express = require('express');
 const cors = require('cors');
+var mysql = require('mysql');
 const app = express();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 var portX = 5000;
 
 app.use(cors());
 app.use(bodyParser.json())
-/*
-app.use('/', (req, res) => {
-    res.status(200).send('Hello World!');
-})
-*/
+
+
+
 //Listen on port:
 app.listen(portX, () => {
     console.log("Listening on port: " + portX)
 });
 
-
-
-var mysql = require('mysql')
-
 const connection = mysql.createConnection({
-    host: 'rds-mysql-4353project.c4g1feomwyfl.us-east-1.rds.amazonaws.com',
+    host: 'localhost',
     port: '3306',
-    user: 'masterUsername',
-    password: 'deMesa889',
+    user: 'root',
+    password: 'Group2PO',
     database: 'SoftwareEngiProject2019'
-})
-
-
-
+});
 connection.connect(err => {
     if (err) {
         throw err;
@@ -55,7 +47,7 @@ app.post('/post_ClientRegistration', (req, res) => {
                 console.log(err);
             }
             else {
-                console.log("1 record inserted into LoginCredentials table");
+                console.log("1 record inserted");
                 //console.log("@Username");
                 return res.json({
                     data: results
@@ -87,33 +79,6 @@ app.post('/get_Login', (req, res) => {
 
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
-
-app.post('/post_ClientProfileManagement', (req, res) => {
-    const { param1, param2, param3, param4, param5, param6 } = req.body;
-    //console.log(req.body.param1);
-    /*var parameters = [
-        {name: 'Username', sqltype: mysql.VarChar, value: req.body.param1},
-        {name: 'Password', sqltype: mysql.VarChar, value: req.body.param2}
-    ]
-    */
-
-    connection.query("INSERT INTO ClientInfo (FirstName, LastName, Address1, Address2, City, State, Zipcode) VALUES ('" +req.body.param1+"', '"+req.body.param2+"', '"+req.body.param3+"', '"+req.body.param4+"', '"+req.body.param5+"', '"+req.body.param6+"', '"+req.body.param7+"')"
-        , function (err, results) {
-            if (err) {
-                console.log("There is an error!");
-                console.log(err);
-            }
-            else {
-                console.log("1 record inserted into ClientInfo table");
-                return res.json({
-                    data: results
-                })
-            }
-        })
-    
-    //return res.json({ data: results = { key1: "value1", key2: "value2", } })
-});
-
 
 
 /*
@@ -171,3 +136,4 @@ app.post('/get_FuelQuoteHistory', (req, res) => {
         ]
     })
 });
+
