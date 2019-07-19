@@ -80,7 +80,13 @@ class Login extends React.Component {
 
                 if ((UFB) == userInputtedUsername && (PFB) == userInputtedPassword) {
                     alert("Login Successful.")
-                    
+                    if (result.data.length !== 0) {
+                    localStorage.setItem('cur_User', result.data[0].ClientInfoFK);
+                    this.setState({ loggedIn: true })
+                    }
+                    else {
+                    this.setState({ auth: false })
+                    }
                 }
                 else {
                     alert("Wrong username / password combination.")

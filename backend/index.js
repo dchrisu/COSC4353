@@ -70,7 +70,7 @@ app.post('/get_Login', (req, res) => {
     const { param1 } = req.body;
     console.log(req.body.param1);
 
-    connection.query("SELECT Username, UserPassword FROM LoginCredentials WHERE Username = '" + req.body.param1 + "'"
+    connection.query("SELECT Username, UserPassword, ClientInfoFK FROM LoginCredentials WHERE Username = '" + req.body.param1 + "'"
         , function (err, results) {
             if (err) {
                 console.log("There is an error!");
