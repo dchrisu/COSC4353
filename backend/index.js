@@ -66,7 +66,7 @@ app.post('/post_ClientRegistration', (req, res) => {
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
 
-app.po st('/get_Login', (req, res) => {
+app.post('/get_Login', (req, res) => {
     const { param1 } = req.body;
     console.log(req.body.param1);
 
