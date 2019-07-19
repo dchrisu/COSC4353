@@ -43,8 +43,8 @@ class FuelQuoteHistory extends React.Component {
     }
 
     componentDidMount() {
-        this.state.CurrentDate = new Date().getDate();
-
+        //Get Fuel Quote History based on User
+        this.getFuelQuoteHistory();
     }
 
     render() {

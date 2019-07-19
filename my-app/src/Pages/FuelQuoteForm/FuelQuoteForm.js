@@ -4,9 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -185,7 +182,7 @@ class FuelQuoteForm extends React.Component {
                 <form noValidate autoComplete="off">
                     <TextField
                         id="filled-name"
-                        type="text"
+                        type="number"
                         name="GallonsRequested"
                         required
                         onChange={e => this.handleChange(e.target.name, e.target.value)}

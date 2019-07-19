@@ -4,9 +4,6 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Menu from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import { Z_BLOCK } from 'zlib';
 
 const styles = theme => ({
     wrapper: {

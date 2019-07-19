@@ -48,7 +48,7 @@ app.post('/post_ClientRegistration', (req, res) => {
     ]
     */
 
-    connection.query("INSERT INTO LoginCredentials (Username, UserPassword) VALUES ('" +req.body.param1+"', '"+req.body.param2+"')"
+    connection.query("INSERT INTO LoginCredentials (Username, UserPassword) VALUES ('" + req.body.param1 + "', '" + req.body.param2 + "')"
         , function (err, results) {
             if (err) {
                 console.log("There is an error!");
@@ -62,15 +62,15 @@ app.post('/post_ClientRegistration', (req, res) => {
                 })
             }
         })
-    
+
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
 
-app.post('/get_Login', (req, res) => {
+app.po st('/get_Login', (req, res) => {
     const { param1 } = req.body;
     console.log(req.body.param1);
 
-    connection.query("SELECT Username, UserPassword FROM LoginCredentials WHERE Username = '" +req.body.param1+"'"
+    connection.query("SELECT Username, UserPassword FROM LoginCredentials WHERE Username = '" + req.body.param1 + "'"
         , function (err, results) {
             if (err) {
                 console.log("There is an error!");
@@ -78,13 +78,13 @@ app.post('/get_Login', (req, res) => {
             }
             else {
                 console.log("Retrieved Username");
-                
+
                 return res.json({
                     data: results
                 })
             }
         })
-    
+
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
 
