@@ -40,7 +40,7 @@ class Header extends Component {
     state = {
         cur_User: 0,
         user_LoggedIn: false,
-        debugMode: false,
+        debugMode: true,
     }
 
     render() {

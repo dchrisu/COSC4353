@@ -227,13 +227,15 @@ const USstatesArray = [
 class ClientProfileManagement extends React.Component {
     constructor(props){
         super(props);
-        this.state = {FirstName: "", 
+        this.state = {ClientPK: "",
+                      FirstName: "", 
                       LastName: "",
                       Address1: "",
                       Address2: " ",
                       City: "",
                       USstate: "",
                       Zipcode: "",
+                      FuelQuoteHistoryFK: "",
                       data: []
                     };
 
@@ -244,12 +246,26 @@ class ClientProfileManagement extends React.Component {
 
     }
     componentDidMount() {
-        /*overload*/
+      fetch('http://localhost:5000/get_ClientProfileManagement', {
+        method: "POST",
+        headers: {
+       'Content-type': 'application/json'
+       },
+        body: JSON.stringify({
+           param1: localStorage.getItem('cur_User')
+           
+        })
+       })
+       .then(res => res.json())
+       .then(result => {
+           this.setState({ data: result.data, ClientPK: result.data[0].ClientPK, FirstName: result.data[0].FirstName, LastName: result.data[0].LastName, Address1: result.data[0].Address1, Address2: result.data[0].Address2, City: result.data[0].City, Zipcode: result.data[0].Zipcode, FuelQuoteHistoryFK: result.data[0].FuelQuoteHistoryFK, USstate: result.data[0].State})
+
+          })
     }
 
     handleSubmit = event =>{
 
-        fetch('http://localhost:5000/post_ClientProfileManagement', {
+        fetch('http://localhost:5000/post_ClientProfileManagementFirstLogin', {
              method: "POST",
              headers: {
             'Content-type': 'application/json'
@@ -262,11 +278,14 @@ class ClientProfileManagement extends React.Component {
                 param5: this.state.City,
                 param6: this.state.USstate,
                 param7: this.state.Zipcode,
+                param8: localStorage.getItem('cur_User')
              })
             })
             .then(res => res.json())
             .then(result => {
                 this.setState({ data: result.data})
+
+                alert("Information updated.")
             })
 
     }
@@ -316,6 +335,9 @@ class ClientProfileManagement extends React.Component {
                     className={classes.textField}
                     margin="normal"
                     style={{ margin: 8 }}
+                    
+                    //defaultValue = {this}
+                    value = {this.state.FirstName}
                     onChange = {this.handleFirstNameChange}
                 />
                 <br></br>
@@ -329,6 +351,7 @@ class ClientProfileManagement extends React.Component {
                     className={classes.textField}
                     margin="normal"
                     style={{ margin: 8 }}
+                    value = {this.state.LastName}
                     onChange = {this.handleLastNameChange}
                 />
                 <br></br>
@@ -342,6 +365,7 @@ class ClientProfileManagement extends React.Component {
                     className={classes.textField}
                     margin="normal"
                     style={{ margin: 8 }}
+                    value = {this.state.Address1}
                     onChange = {this.handleAddress1Change}
                 />
                 <br></br>
@@ -354,6 +378,7 @@ class ClientProfileManagement extends React.Component {
                     className={classes.textField}
                     margin="normal"
                     style={{ margin: 8 }}
+                    value = {this.state.Address2}
                     onChange = {this.handleAddress2Change}
                 />
                 <br></br>
@@ -367,6 +392,7 @@ class ClientProfileManagement extends React.Component {
                     className={classes.textField}
                     margin="normal"
                     style={{ margin: 8 }}
+                    value = {this.state.City}
                     onChange = {this.handleCityChange}
                 />
                 <br></br>
@@ -375,7 +401,7 @@ class ClientProfileManagement extends React.Component {
                     select
                     label="State"
                     className={classes.textField}
-                    value = {this.handleUSstateChange} //{USstates}
+                    value = {this.state.USstate} //{USstates}
                     onChange = {this.handleUSstateChange}
                     
                     
@@ -410,6 +436,7 @@ class ClientProfileManagement extends React.Component {
                     className={classes.textField}
                     margin="normal"
                     style={{ margin: 8 }}
+                    value = {this.state.Zipcode}
                     onChange = {this.handleZipcodeChange}
                 />
                 <p>*Required Information</p>

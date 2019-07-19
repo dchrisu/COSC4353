@@ -27,6 +27,7 @@ class ClientRegistration extends React.Component {
                       data: [],
                       from_backend1: 0,
                       from_backend2: 0,
+                      clientInfoFK: 0
                     };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -60,21 +61,41 @@ class ClientRegistration extends React.Component {
     handleSubmit = event =>{
         alert(this.state.username);
 
-        fetch('http://localhost:5000/post_ClientRegistration', {
+        fetch('http://localhost:5000/post_ClientRegistrationPt1', {
              method: "POST",
              headers: {
             'Content-type': 'application/json'
             },
-             body: JSON.stringify({
-                param1: this.state.username,
-                param2: this.state.password,
-             })
+             /*body: JSON.stringify({
+                //param1: this.state.username,
+                //param2: this.state.password,
+             })*/
             })
             .then(res => res.json())
             .then(result => {
-                this.setState({ data: result.data, from_backend1: result.data[0].key1, from_backend2: result.data[0].key2 })
+
+                this.setState({ data: result.data, clientInfoFK: result.data[0].ClientPK })
+
+                fetch('http://localhost:5000/post_ClientRegistrationPt2', {
+                method: "POST",
+                 headers: {
+                'Content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    param1: this.state.username,
+                    param2: this.state.password,
+                    param3: result.data[0].ClientPK//this.state.clientInfoFK,
+                })
+                })
+                .then(res => res.json())
+                .then(result => {
+                    this.setState({ data: result.data })
+                })
             })
 
+
+        
+            //this.setState({ data: result.data, from_backend1: result.data[0].key1, from_backend2: result.data[0].key2 })
         alert("Account created.")
     }
 

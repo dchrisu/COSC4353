@@ -39,8 +39,44 @@ connection.connect(err => {
     }
 });
 
-app.post('/post_ClientRegistration', (req, res) => {
-    const { param1, param2 } = req.body;
+
+app.post('/post_ClientRegistrationPt1', (req, res) => {
+    //const { param1, param2 } = req.body;
+
+   connection.query("INSERT INTO ClientInfo (FirstName) VALUES (NULL)"
+   , function (err, results) {
+       if (err) {
+           console.log("There is an error!");
+           console.log(err);
+       }
+       else {
+           console.log("1 record inserted into ClientInfo table");
+           //return res.json({
+           //    data: results
+           //})
+       }
+   })
+
+   connection.query("SELECT ClientPK FROM  ClientInfo ORDER BY ClientPK DESC LIMIT 1"
+   , function (err, results) {
+       if (err) {
+           console.log("There is an error!");
+           console.log(err);
+       }
+       else {
+           console.log("1 record selected from ClientInfo table");
+           return res.json({
+               data: results
+           })
+       }
+   })
+
+    //return res.json({ data: results = { key1: "value1", key2: "value2", } })
+});
+
+
+app.post('/post_ClientRegistrationPt2', (req, res) => {
+    const { param1, param2, param3 } = req.body;
     //console.log(req.body.param1);
     /*var parameters = [
         {name: 'Username', sqltype: mysql.VarChar, value: req.body.param1},
@@ -48,14 +84,14 @@ app.post('/post_ClientRegistration', (req, res) => {
     ]
     */
 
-    connection.query("INSERT INTO LoginCredentials (Username, UserPassword) VALUES ('" + req.body.param1 + "', '" + req.body.param2 + "')"
+    connection.query("INSERT INTO LoginCredentials (Username, UserPassword, ClientInfoFK) VALUES ('" + req.body.param1 + "', '" + req.body.param2 + "', '" + req.body.param3 + "')"
         , function (err, results) {
             if (err) {
                 console.log("There is an error!");
                 console.log(err);
             }
             else {
-                console.log("1 record inserted into LoginCredentials table");
+                console.log("1 record also inserted into LoginCredentials table");
                 //console.log("@Username");
                 return res.json({
                     data: results
@@ -88,16 +124,16 @@ app.post('/get_Login', (req, res) => {
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
 
-app.post('/post_ClientProfileManagement', (req, res) => {
-    const { param1, param2, param3, param4, param5, param6 } = req.body;
+app.post('/post_ClientProfileManagementFirstLogin', (req, res) => {
+    const { param1, param2, param3, param4, param5, param6, param7, param8 } = req.body;
     //console.log(req.body.param1);
     /*var parameters = [
         {name: 'Username', sqltype: mysql.VarChar, value: req.body.param1},
         {name: 'Password', sqltype: mysql.VarChar, value: req.body.param2}
     ]
     */
-
-    connection.query("INSERT INTO ClientInfo (FirstName, LastName, Address1, Address2, City, State, Zipcode) VALUES ('" +req.body.param1+"', '"+req.body.param2+"', '"+req.body.param3+"', '"+req.body.param4+"', '"+req.body.param5+"', '"+req.body.param6+"', '"+req.body.param7+"')"
+    
+    connection.query("UPDATE ClientInfo SET FirstName = '" +req.body.param1+"', LastName = '" +req.body.param2+"', Address1 = '" +req.body.param3+"', Address2 = '" +req.body.param4+"', City = '" +req.body.param5+"', State = '" +req.body.param6+"', Zipcode = '" +req.body.param7+"' WHERE ClientPK = '"+req.body.param8+"'"
         , function (err, results) {
             if (err) {
                 console.log("There is an error!");
@@ -114,6 +150,26 @@ app.post('/post_ClientProfileManagement', (req, res) => {
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
 
+app.post('/get_ClientProfileManagement', (req, res) => {
+    const { param1 } = req.body;
+
+    connection.query("SELECT ClientPK, FirstName, LastName, Address1, Address2, City, Zipcode, FuelQuoteHistoryFK, State FROM ClientInfo WHERE ClientPK = '" + req.body.param1 + "'"
+        , function (err, results) {
+            if (err) {
+                console.log("There is an error!");
+                console.log(err);
+            }
+            else {
+                console.log("Retrieved User Profile Information");
+
+                return res.json({
+                    data: results
+                })
+            }
+        })
+
+    //return res.json({ data: results = { key1: "value1", key2: "value2", } })
+});
 
 
 /*
