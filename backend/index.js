@@ -43,33 +43,33 @@ connection.connect(err => {
 app.post('/post_ClientRegistrationPt1', (req, res) => {
     //const { param1, param2 } = req.body;
 
-   connection.query("INSERT INTO ClientInfo (FirstName) VALUES (NULL)"
-   , function (err, results) {
-       if (err) {
-           console.log("There is an error!");
-           console.log(err);
-       }
-       else {
-           console.log("1 record inserted into ClientInfo table");
-           //return res.json({
-           //    data: results
-           //})
-       }
-   })
+    connection.query("INSERT INTO ClientInfo (FirstName) VALUES (NULL)"
+        , function (err, results) {
+            if (err) {
+                console.log("There is an error!");
+                console.log(err);
+            }
+            else {
+                console.log("1 record inserted into ClientInfo table");
+                //return res.json({
+                //    data: results
+                //})
+            }
+        })
 
-   connection.query("SELECT ClientPK FROM  ClientInfo ORDER BY ClientPK DESC LIMIT 1"
-   , function (err, results) {
-       if (err) {
-           console.log("There is an error!");
-           console.log(err);
-       }
-       else {
-           console.log("1 record selected from ClientInfo table");
-           return res.json({
-               data: results
-           })
-       }
-   })
+    connection.query("SELECT ClientPK FROM  ClientInfo ORDER BY ClientPK DESC LIMIT 1"
+        , function (err, results) {
+            if (err) {
+                console.log("There is an error!");
+                console.log(err);
+            }
+            else {
+                console.log("1 record selected from ClientInfo table");
+                return res.json({
+                    data: results
+                })
+            }
+        })
 
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
@@ -126,8 +126,8 @@ app.post('/get_Login', (req, res) => {
 
 app.post('/post_ClientProfileManagementFirstLogin', (req, res) => {
     const { param1, param2, param3, param4, param5, param6, param7, param8 } = req.body;
-    
-    connection.query("UPDATE ClientInfo SET FirstName = '" +req.body.param1+"', LastName = '" +req.body.param2+"', Address1 = '" +req.body.param3+"', Address2 = '" +req.body.param4+"', City = '" +req.body.param5+"', State = '" +req.body.param6+"', Zipcode = '" +req.body.param7+"' WHERE ClientPK = '"+req.body.param8+"'"
+
+    connection.query("UPDATE ClientInfo SET FirstName = '" + req.body.param1 + "', LastName = '" + req.body.param2 + "', Address1 = '" + req.body.param3 + "', Address2 = '" + req.body.param4 + "', City = '" + req.body.param5 + "', State = '" + req.body.param6 + "', Zipcode = '" + req.body.param7 + "' WHERE ClientPK = '" + req.body.param8 + "'"
         , function (err, results) {
             if (err) {
                 console.log("There is an error!");
@@ -140,7 +140,7 @@ app.post('/post_ClientProfileManagementFirstLogin', (req, res) => {
                 })
             }
         })
-    
+
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
 
@@ -166,58 +166,97 @@ app.post('/get_ClientProfileManagement', (req, res) => {
 });
 
 
-/*
-var transporter = nodemailer.createTransport({
-    service: '',
-    auth: {
-        user: '',
-        pass: ''
-    }
-});*/
+
+//Chris' REST calls
+app.post('/post_PricingModule', (req, res) => {
+    const { param_GallonsRequested, param_Address, param_Date, param_FuelQuoteHistory_Flag } = req.body;
+
+    //Algorithm
+    //Current Price per Gallon *
+    var PricePerGallon = 1.50;
+
+    //Location Factor *
+    var regex = new RegExp("$TX$")
+    var LocationFactor;
+    if (regex.test(param_Address)) { LocationFactor = .02; }
+    else { LocationFactor = .04; }
+
+    //Rate History Factor *
+    var RateHistoryFactor;
+    if (param_FuelQuoteHistory_Flag) { RateHistoryFactor = .01; }
+    else { RateHistoryFactor = 0; }
+
+    //Gallons Requested Factor *
+    var GallonsRequestedFactor;
+    if (param_GallonsRequested > 1000) { GallonsRequestedFactor = .02; }
+    else { GallonsRequestedFactor = .03; }
+
+    //Company Profit Factor *
+    var CompanyProfitFactor = .1;
 
 
+    //Rate Fluctuation *
+    var RateFluctuationFactor;
+    var regexDates = new RegExp("0[6-8]")
+    if (regexDates.test(param_Date.substring(5, 7))) { RateFluctuationFactor = 0.04; }
+    else { RateFluctuationFactor = 0.03; }
 
-app.post('/post_FuelQuote', (req, res) => {
-    const { pass_in_parameter1, pass_in_parameter2 } = req.body;
-    /*
-    connection.query(`INSERT INTO table.FuelQuoteHistory ()`
+    //Final Calculation * 
+    var SuggestedRatePerGallon = PricePerGallon + (LocationFactor - RateHistoryFactor + GallonsRequestedFactor + CompanyProfitFactor + RateFluctuationFactor) * PricePerGallon;
+
+    console.log("Pricing Module: " + SuggestedRatePerGallon);
+    console.log("   Algorithm displayed: " + PricePerGallon + " + " + "(" + LocationFactor + " - " + RateHistoryFactor + " + " + GallonsRequestedFactor + " + " + CompanyProfitFactor + " + " + RateFluctuationFactor + ") * " + PricePerGallon)
+    return res.json({ SuggestedPrice: SuggestedRatePerGallon });
+});
+
+app.post('/get_ClientAddressAndHistoryFlag', (req, res) => {
+    const { param_cur_User } = req.body;
+
+    connection.query(`SELECT Address1, City, Zipcode, State, FuelQuoteHistory_Flag FROM SoftwareEngiProject2019.ClientInfo where ClientPK = '${param_cur_User}'`
         , function (err, results) {
             if (err) {
                 console.log(err);
             }
             else {
+                console.log("Client Address and History Flag: Successful!");
                 return res.json({
                     data: results
                 })
             }
         })
-    */
-    return res.json({ data: results = { key1: "value1", key2: "value2", key3: "", } })
+});
+
+app.post('/post_FuelQuote', (req, res) => {
+    const { param_GallonsRequested, param_DeliveryDate, param_SuggestedPrice, param_TotalAmountDue, param_User } = req.body;
+
+    connection.query(
+        `INSERT INTO SoftwareEngiProject2019.FuelQuoteHistory (GallonsRequested, DeliveryDate, SuggestedPrice, TotalAmountDue, ClientInfoFK)
+        VALUES ('${param_GallonsRequested}', '${param_DeliveryDate}', '${param_SuggestedPrice}', '${param_TotalAmountDue}', '${param_User}')`
+        , function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("Fuel Quote Post: Successful!")
+                return res;
+            }
+        })
 });
 
 
 app.post('/get_FuelQuoteHistory', (req, res) => {
-    const { pass_in_parameter1 } = req.body;
-    /*
-    connection.query(`SELECT * from table.FuelQuoteHistory`
+    const { param_cur_User } = req.body;
+
+    connection.query(`SELECT * from SoftwareEngiProject2019.FuelQuoteHistory where ClientInfoFK = '${param_cur_User}'`
         , function (err, results) {
             if (err) {
                 console.log(err);
             }
             else {
+                console.log("Fuel Quote History: Succesful!")
                 return res.json({
                     data: results
                 })
             }
         })
-    */
-    return res.json({
-        data: results = [
-            { GallonsRequested: 5, Date: '2/14/2019', Price: '$432.23', Total: '$1000.66' },
-            { GallonsRequested: 4, Date: '3/7/2019', Price: '$15.23', Total: '$190.32' },
-            { GallonsRequested: 23, Date: '3/30/2019', Price: '$23.23', Total: '$300.00' },
-            { GallonsRequested: 1, Date: '4/15/2019', Price: '$843.23', Total: '$2054.11' },
-            { GallonsRequested: 3, Date: '7/2/2019', Price: '$10.23', Total: '$145.00' }
-        ]
-    })
 });

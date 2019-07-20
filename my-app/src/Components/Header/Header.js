@@ -38,9 +38,19 @@ const styles = theme => ({
 
 class Header extends Component {
     state = {
-        cur_User: 0,
+        cur_User: -1,
         user_LoggedIn: false,
-        debugMode: true,
+        debugMode: false,
+    }
+
+    componentDidMount() {
+        this.state.cur_User = localStorage.getItem("USERFK");
+        this.setState({ cur_User: this.state.cur_User });
+    }
+
+    logoutUser() {
+        localStorage.removeItem("USERFK");
+        this.setState({ cur_User: -1 });
     }
 
     render() {
@@ -62,9 +72,10 @@ class Header extends Component {
                                 </Fragment>
                                 :
                                 <Fragment>
-                                    {this.state.user_LoggedIn === true ?
+                                    {this.state.cur_User !== -1 ?
                                         <Fragment>
                                             <li class={classes.home}><Link to="/" class={classes.linkStyles}>Home</Link></li>
+                                            <li class={classes.gridItem}><Link to="/" class={classes.linkStyles} onClick={() => this.logoutUser()}>Logout</Link></li>
                                             <li class={classes.gridItem}><Link to="/ClientProfileManagement" class={classes.linkStyles}>Profile</Link></li>
                                             <li class={classes.gridItem}><Link to="/FuelQuoteHistory" class={classes.linkStyles}>Check Quote History</Link></li>
                                             <li class={classes.gridItem}><Link to="/FuelQuoteForm" class={classes.linkStyles}>Get Fuel Quote</Link></li>

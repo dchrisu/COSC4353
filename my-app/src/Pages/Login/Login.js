@@ -18,38 +18,40 @@ const styles = theme => ({
 });
 
 class Login extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state = {username: "testing", 
-                      password: "testing",
-                      usernameFromBackend: [],
-                      passwordFromBackend: [],
-                      data: {}};
+        this.state = {
+            username: "testing",
+            password: "testing",
+            usernameFromBackend: [],
+            passwordFromBackend: [],
+            data: {}
+        };
     }
     componentDidMount() {
         /*overload*/
     }
 
-    handleChangeUsername = event =>{
-        this.setState({username: event.target.value})
+    handleChangeUsername = event => {
+        this.setState({ username: event.target.value })
     }
 
-    handleChangePassword = event =>{
-        this.setState({password: event.target.value})
+    handleChangePassword = event => {
+        this.setState({ password: event.target.value })
     }
 
-    getLoginInfo = event =>{
+    getLoginInfo = event => {
         //alert(this.state.username);
 
         fetch('http://localhost:5000/get_Login', {
-             method: "POST",
-             headers: {
-            'Content-type': 'application/json'
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
             },
-             body: JSON.stringify({
+            body: JSON.stringify({
                 param1: this.state.username,
-             })
             })
+        })
             .then(res => res.json())
             .then(result => {
                 //this.setState({ data: result.data})
@@ -61,83 +63,84 @@ class Login extends React.Component {
                 var a = '"';
                 var b = '"';
 
-               var userInputtedUsername = a + this.state.username + b
-               var userInputtedPassword = a + this.state.password + b
+                var userInputtedUsername = a + this.state.username + b
+                var userInputtedPassword = a + this.state.password + b
 
 
                 if ((UFB) == userInputtedUsername && (PFB) == userInputtedPassword) {
                     alert("Login Successful.")
                     if (result.data.length !== 0) {
-                    localStorage.setItem('cur_User', result.data[0].ClientInfoFK);
-                    this.setState({ loggedIn: true })
+                        localStorage.setItem('cur_User', result.data[0].ClientInfoFK);
+                        this.setState({ loggedIn: true })
+                        window.location.assign('/');
                     }
                     else {
-                    this.setState({ auth: false })
+                        this.setState({ auth: false })
                     }
                 }
                 else {
                     alert("Wrong username / password combination.")
-                }    
-                
-             
+                }
+
+
                 //alert("POG");
 
-                
+
             })
 
-            {
-                /*
-                alert(this.state.passwordFromBackend)
+        {
+            /*
+            alert(this.state.passwordFromBackend)
+            
+            (this.state.usernameFromBackend) !== this.state.username && (this.state.passwordFromBackend) !== this.state.password ?
+                alert("Wrong username / password combination.")
+                //alert(this.state.usernameFromBackend)
                 
-                (this.state.usernameFromBackend) !== this.state.username && (this.state.passwordFromBackend) !== this.state.password ?
-                    alert("Wrong username / password combination.")
-                    //alert(this.state.usernameFromBackend)
-                    
-                :
-                alert("Login Successful.")
-                */
-                
-            }
+            :
+            alert("Login Successful.")
+            */
+
+        }
 
         //alert(this.state.data);
     }
- 
+
     render() {
         const { classes } = this.props;
         return (
             <Paper className={classes.container}>
                 <h1>Login</h1>
-                <form className={classes.container} noValidate autoComplete="off" onSubmit = {this.getLoginInfo}>
-                <TextField
-                    id="standard-name"
-                    label="Username"
-                    className={classes.textField}
-                    margin="normal"
-                    style={{ margin: 8 }}
-                    onChange={this.handleChangeUsername}
-                />
-                <br></br>
-                <TextField
-                    
-                    id="standard-password-input"
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
-                    margin="normal"
-                    style={{ margin: 8 }}
-                    onChange={this.handleChangePassword}
-                />
-                <br></br>
-                <Button variant="contained" className={classes.button} type = "submit">
-                    Sign In
+                <form className={classes.container} noValidate autoComplete="off" onSubmit={this.getLoginInfo}>
+                    <TextField
+                        id="standard-name"
+                        label="Username"
+                        className={classes.textField}
+                        margin="normal"
+                        style={{ margin: 8 }}
+                        onChange={this.handleChangeUsername}
+                    />
+                    <br></br>
+                    <TextField
+
+                        id="standard-password-input"
+                        label="Password"
+                        type="password"
+                        autoComplete="current-password"
+                        margin="normal"
+                        style={{ margin: 8 }}
+                        onChange={this.handleChangePassword}
+                    />
+                    <br></br>
+                    <Button variant="contained" className={classes.button} type="submit">
+                        Sign In
                 </Button>
-                <br></br><br></br>
+                    <br></br><br></br>
                 </form>
-                
+
                 <Button>
-                <a className={classes.linkStyles} href="/ClientRegistration"><Link to="/ClientRegistration">Sign Up
+                    <a className={classes.linkStyles} href="/ClientRegistration"><Link to="/ClientRegistration">Sign Up
                 </Link></a></Button>
-            
+
             </Paper>
         );
     }
