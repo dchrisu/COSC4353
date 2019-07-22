@@ -269,7 +269,7 @@ class ClientProfileManagement extends React.Component {
        })
        .then(res => res.json())
        .then(result => {
-           this.setState({ data: result.data, ClientPK: result.data[0].ClientPK, FirstName: result.data[0].FirstName, LastName: result.data[0].LastName, Address1: result.data[0].Address1, Address2: result.data[0].Address2, City: result.data[0].City, Zipcode: result.data[0].Zipcode, FuelQuoteHistoryFK: result.data[0].FuelQuoteHistoryFK, USstate: result.data[0].State})
+           this.setState({ data: result.data, ClientPK: result.data[0].ClientPK, FirstName: result.data[0].FirstName, LastName: result.data[0].LastName, Address1: result.data[0].Address1, Address2: result.data[0].Address2, City: result.data[0].City, Zipcode: result.data[0].Zipcode, FuelQuoteHistoryFK: result.data[0].FuelQuoteHistory_Flag, USstate: result.data[0].State})
 
           })
     }

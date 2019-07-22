@@ -147,7 +147,7 @@ app.post('/post_ClientProfileManagementFirstLogin', (req, res) => {
 app.post('/get_ClientProfileManagement', (req, res) => {
     const { param1 } = req.body;
 
-    connection.query("SELECT ClientPK, FirstName, LastName, Address1, Address2, City, Zipcode, FuelQuoteHistoryFK, State FROM ClientInfo WHERE ClientPK = '" + req.body.param1 + "'"
+    connection.query("SELECT ClientPK, FirstName, LastName, Address1, Address2, City, Zipcode, FuelQuoteHistory_Flag, State FROM ClientInfo WHERE ClientPK = '" + req.body.param1 + "'"
         , function (err, results) {
             if (err) {
                 console.log("There is an error!");
