@@ -51,7 +51,7 @@ class FuelQuoteForm extends React.Component {
 
     componentDidMount() {
         //Before render, make sure to populate the Delivery Address from the DB
-        var localUser = localStorage.getItem("USERFK");
+        var localUser = localStorage.getItem("cur_User");
         this.state.cur_User = localUser;
         this.getClientAddressAndHistoryFlag();
     }

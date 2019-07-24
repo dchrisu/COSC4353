@@ -50,7 +50,7 @@ class FuelQuoteHistory extends React.Component {
 
     componentDidMount() {
         //Get Fuel Quote History based on User
-        var localUser = localStorage.getItem("USERFK");
+        var localUser = localStorage.getItem("cur_User");
         this.state.cur_User = localUser;
         this.getFuelQuoteHistory();
     }

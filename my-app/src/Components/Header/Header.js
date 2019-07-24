@@ -44,12 +44,12 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        this.state.cur_User = localStorage.getItem("USERFK");
+        this.state.cur_User = localStorage.getItem("cur_User");
         this.setState({ cur_User: this.state.cur_User });
     }
 
     logoutUser() {
-        localStorage.removeItem("USERFK");
+        localStorage.removeItem("cur_User");
         this.setState({ cur_User: -1 });
     }
 
