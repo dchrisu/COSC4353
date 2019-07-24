@@ -176,7 +176,7 @@ app.post('/post_PricingModule', (req, res) => {
     var PricePerGallon = 1.50;
 
     //Location Factor *
-    var regex = new RegExp("$TX$")
+    var regex = new RegExp("TX")
     var LocationFactor;
     if (regex.test(param_Address)) { LocationFactor = .02; }
     else { LocationFactor = .04; }
@@ -232,6 +232,17 @@ app.post('/post_FuelQuote', (req, res) => {
     connection.query(
         `INSERT INTO SoftwareEngiProject2019.FuelQuoteHistory (GallonsRequested, DeliveryDate, SuggestedPrice, TotalAmountDue, ClientInfoFK)
         VALUES ('${param_GallonsRequested}', '${param_DeliveryDate}', '${param_SuggestedPrice}', '${param_TotalAmountDue}', '${param_User}')`
+        , function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("Fuel Quote Post: Successful!")
+                return res;
+            }
+        })
+    connection.query(
+        `UPDATE SoftwareEngiProject2019.ClientInfo SET FuelQuoteHistory_Flag = 1 WHERE ClientPK = '${param_User}')`
         , function (err, results) {
             if (err) {
                 console.log(err);
