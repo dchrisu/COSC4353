@@ -242,7 +242,7 @@ app.post('/post_FuelQuote', (req, res) => {
             }
         })
     connection.query(
-        `UPDATE SoftwareEngiProject2019.ClientInfo SET FuelQuoteHistory_Flag = 1 WHERE ClientPK = '${param_User}')`
+        `UPDATE SoftwareEngiProject2019.ClientInfo SET FuelQuoteHistory_Flag = 1 WHERE ClientPK = '${param_User}'`
         , function (err, results) {
             if (err) {
                 console.log(err);
