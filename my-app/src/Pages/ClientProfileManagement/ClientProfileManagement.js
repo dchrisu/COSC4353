@@ -236,7 +236,7 @@ class ClientProfileManagement extends React.Component {
                       FirstName: "", 
                       LastName: "",
                       Address1: "",
-                      Address2: " ",
+                      Address2: null,
                       City: "",
                       USstate: "",
                       Zipcode: "",
@@ -276,6 +276,14 @@ class ClientProfileManagement extends React.Component {
 
     handleSubmit = event =>{
 
+        if(!this.state.Address2){
+          alert("EMPTY ADDRESS")
+          this.setState({Address2: "n/a"})
+        }
+        else{
+          alert(this.state.Address2)
+        }
+
         fetch('http://localhost:5000/post_ClientProfileManagementFirstLogin', {
              method: "POST",
              headers: {
@@ -296,7 +304,7 @@ class ClientProfileManagement extends React.Component {
             .then(result => {
                 this.setState({ data: result.data})
 
-                alert("Information updated.")
+                //alert("Information updated.")
             })
 
     }

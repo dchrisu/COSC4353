@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+//import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Menu from '@material-ui/core/Toolbar';
+import { BrowserRouter as Router, Route, Redirect, Switch, Link} from 'react-router-dom';
 
 const styles = theme => ({
     wrapper: {

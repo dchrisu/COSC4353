@@ -127,7 +127,8 @@ app.post('/get_Login', (req, res) => {
 app.post('/post_ClientProfileManagementFirstLogin', (req, res) => {
     const { param1, param2, param3, param4, param5, param6, param7, param8 } = req.body;
 
-    connection.query("UPDATE ClientInfo SET FirstName = '" + req.body.param1 + "', LastName = '" + req.body.param2 + "', Address1 = '" + req.body.param3 + "', Address2 = '" + req.body.param4 + "', City = '" + req.body.param5 + "', State = '" + req.body.param6 + "', Zipcode = '" + req.body.param7 + "' WHERE ClientPK = '" + req.body.param8 + "'"
+   
+        connection.query("UPDATE ClientInfo SET FirstName = '" + req.body.param1 + "', LastName = '" + req.body.param2 + "', Address1 = '" + req.body.param3 + "', Address2 = '" + req.body.param4 + "', City = '" + req.body.param5 + "', State = '" + req.body.param6 + "', Zipcode = '" + req.body.param7 + "' WHERE ClientPK = '" + req.body.param8 + "'"
         , function (err, results) {
             if (err) {
                 console.log("There is an error!");
@@ -140,6 +141,8 @@ app.post('/post_ClientProfileManagementFirstLogin', (req, res) => {
                 })
             }
         })
+    
+    
 
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });

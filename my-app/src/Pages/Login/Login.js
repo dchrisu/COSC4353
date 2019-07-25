@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch, Link } from 'react-router-dom';
 
 const styles = theme => ({
     container: {
@@ -71,8 +71,11 @@ class Login extends React.Component {
                     alert("Login Successful.")
                     if (result.data.length !== 0) {
                         localStorage.setItem('cur_User', result.data[0].ClientInfoFK);
+                        
+                        window.location.href = '/ClientProfileManagement';
+                       //<Router><Redirect push to="/" /></Router>
                         this.setState({ loggedIn: true })
-                        window.location.assign('/');
+                        return false;
                     }
                     else {
                         this.setState({ auth: false })
@@ -110,7 +113,7 @@ class Login extends React.Component {
         return (
             <Paper className={classes.container}>
                 <h1>Login</h1>
-                <form className={classes.container} noValidate autoComplete="off" onSubmit={this.getLoginInfo}>
+                <form className={classes.container} noValidate autoComplete="off">
                     <TextField
                         id="standard-name"
                         label="Username"
@@ -131,7 +134,7 @@ class Login extends React.Component {
                         onChange={this.handleChangePassword}
                     />
                     <br></br>
-                    <Button variant="contained" className={classes.button} type="submit">
+                    <Button variant="contained" className={classes.button} type="button" onClick={this.getLoginInfo}>
                         Sign In
                 </Button>
                     <br></br><br></br>
