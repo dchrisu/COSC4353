@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Menu from '@material-ui/core/Toolbar';
-import { BrowserRouter as Router, Route, Redirect, Switch, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch, Link } from 'react-router-dom';
 
 const styles = theme => ({
     wrapper: {
@@ -45,8 +45,11 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        this.state.cur_User = localStorage.getItem("cur_User");
-        this.setState({ cur_User: this.state.cur_User });
+        if (localStorage.getItem("cur_User") !== null) {
+            console.log("Found a current user from database.");
+            this.state.cur_User = localStorage.getItem("cur_User");
+            this.setState({ cur_User: this.state.cur_User });
+        }
     }
 
     logoutUser() {
@@ -73,7 +76,7 @@ class Header extends Component {
                                 </Fragment>
                                 :
                                 <Fragment>
-                                    {this.state.cur_User !== -1 ?
+                                    {this.state.cur_User > -1 ?
                                         <Fragment>
                                             <li class={classes.home}><Link to="/" class={classes.linkStyles}>Home</Link></li>
                                             <li class={classes.gridItem}><Link to="/" class={classes.linkStyles} onClick={() => this.logoutUser()}>Logout</Link></li>
