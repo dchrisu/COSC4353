@@ -59,44 +59,72 @@ class ClientRegistration extends React.Component {
     }
 
     handleSubmit = event =>{
-        alert(this.state.username);
 
-        fetch('http://localhost:5000/post_ClientRegistrationPt1', {
-             method: "POST",
-             headers: {
-            'Content-type': 'application/json'
-            },
-             /*body: JSON.stringify({
-                //param1: this.state.username,
-                //param2: this.state.password,
-             })*/
-            })
-            .then(res => res.json())
-            .then(result => {
-
-                this.setState({ data: result.data, clientInfoFK: result.data[0].ClientPK })
-
-                fetch('http://localhost:5000/post_ClientRegistrationPt2', {
+        if(this.state.password != this.state.confirmPassword){
+            alert("Passwords do not match.")
+        }
+        else{
+            fetch('http://localhost:5000/post_CheckRegistrationInfo',{
                 method: "POST",
-                 headers: {
+                headers: {
                 'Content-type': 'application/json'
                 },
                 body: JSON.stringify({
-                    param1: this.state.username,
-                    param2: this.state.password,
-                    param3: result.data[0].ClientPK//this.state.clientInfoFK,
+                    param1: this.state.username
                 })
                 })
                 .then(res => res.json())
                 .then(result => {
                     this.setState({ data: result.data })
+
+                    var x = 'IF(EXISTS(SELECT * from LoginCredentials WHERE Username = \''+this.state.username+'\'),1,0)'
+
+                    if(result.data[0][x] == 1){
+                        alert("Username already exists. Please choose a different username.")
+                    }
+                    else if(result.data[0][x] == 0){
+                        fetch('http://localhost:5000/post_ClientRegistrationPt1', {
+                        method: "POST",
+                        headers: {
+                        'Content-type': 'application/json'
+                        },
+                        /*body: JSON.stringify({
+                            //param1: this.state.username,
+                            //param2: this.state.password,
+                        })*/
+                        })
+                        .then(res => res.json())
+                        .then(result => {
+
+                            this.setState({ data: result.data, clientInfoFK: result.data[0].ClientPK })
+
+                            fetch('http://localhost:5000/post_ClientRegistrationPt2', {
+                            method: "POST",
+                            headers: {
+                            'Content-type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                param1: this.state.username,
+                                param2: this.state.password,
+                                param3: result.data[0].ClientPK//this.state.clientInfoFK,
+                            })
+                            })
+                            .then(res => res.json())
+                            .then(result => {
+                                this.setState({ data: result.data })
+                                alert("Account created.")
+                                window.location.href = '/Login';
+                                return false;
+                            })
+                        })
+                                }
+
+
                 })
-            })
-
-
         
             //this.setState({ data: result.data, from_backend1: result.data[0].key1, from_backend2: result.data[0].key2 })
-        alert("Account created.")
+        
+        }
     }
 
     render() {
@@ -105,7 +133,7 @@ class ClientRegistration extends React.Component {
             <Paper className={classes.container}>
             
                 <h1>Register an account</h1>
-                <form className={classes.container} noValidate autoComplete="off" onSubmit = {this.handleSubmit}>
+                <form className={classes.container} noValidate autoComplete="off">
                 <TextField
                     id="standard-name"
                     label="Username"
@@ -137,7 +165,7 @@ class ClientRegistration extends React.Component {
                     onChange={this.handleChangeConfirmPassword}
                 />
                 <br></br>
-                <Button variant="contained" className={classes.button} type = "submit">
+                <Button variant="contained" className={classes.button} type = "button"  onClick = {this.handleSubmit}>
                     Create Account
                 </Button>
             </form>

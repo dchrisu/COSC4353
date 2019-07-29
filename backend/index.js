@@ -40,6 +40,26 @@ connection.connect(err => {
 });
 
 
+app.post('/post_CheckRegistrationInfo', (req, res) =>{
+    const {param1} = req.body;
+
+    connection.query("SELECT IF(EXISTS(SELECT * from LoginCredentials WHERE Username = '"+req.body.param1+"'),1,0)"
+        , function (err, results) {
+            if (err) {
+                console.log("There is an error!");
+                console.log(err);
+            }
+            else {
+                console.log("Checked if record exists.");
+                return res.json({
+                    data: results
+                })
+            }
+        })
+    
+
+})
+
 app.post('/post_ClientRegistrationPt1', (req, res) => {
     //const { param1, param2 } = req.body;
 

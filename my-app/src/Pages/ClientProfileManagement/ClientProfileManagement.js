@@ -236,12 +236,13 @@ class ClientProfileManagement extends React.Component {
                       FirstName: "", 
                       LastName: "",
                       Address1: "",
-                      Address2: null,
+                      Address2: " ",
                       City: "",
                       USstate: "",
                       Zipcode: "",
                       FuelQuoteHistoryFK: "",
                       data: [],
+                      fillWithEmptyVar: false,
                       openFirstName: false,
                       openLastName: false,
                       openAddress1: false,
@@ -257,6 +258,7 @@ class ClientProfileManagement extends React.Component {
 
     }
     componentDidMount() {
+
       fetch('http://localhost:5000/get_ClientProfileManagement', {
         method: "POST",
         headers: {
@@ -270,19 +272,51 @@ class ClientProfileManagement extends React.Component {
        .then(res => res.json())
        .then(result => {
            this.setState({ data: result.data, ClientPK: result.data[0].ClientPK, FirstName: result.data[0].FirstName, LastName: result.data[0].LastName, Address1: result.data[0].Address1, Address2: result.data[0].Address2, City: result.data[0].City, Zipcode: result.data[0].Zipcode, FuelQuoteHistoryFK: result.data[0].FuelQuoteHistory_Flag, USstate: result.data[0].State})
+           
+           //alert(JSON.stringify(result.data[0].FirstName))
+           
+           if(!this.state.Address2 || this.state.Address2 === null || this.state.Address === undefined || this.state.Address == "")
+           {
+              this.setState({Address2: ""})
+           }
+
+           if(result.data[0].FirstName === null){
+             this.setState({FirstName: ""})
+           }
+           if(result.data[0].LastName === null){
+            this.setState({LastName: ""})
+          }
+          if(result.data[0].Address1 === null){
+            this.setState({Address1: ""})
+          }
+          if(result.data[0].City === null){
+            this.setState({City: ""})
+          }
+          if(result.data[0].State === null){
+            this.setState({USstate: ""})
+          }
+          if(result.data[0].Zipcode === null){
+            this.setState({Zipcode: ""})
+          }
+           /*if(!this.state.fillWithEmptyVar){
+             alert("fill with empty var false")
+            this.setState({FirstName: "", LastName: "", Address1: "", City: "", State: "", Zipcode: ""})
+            this.setState({fillWithEmptyVar: true})
+          }*/
 
           })
     }
 
-    handleSubmit = event =>{
+    /*componentWillMount(){
+      if(!this.state.fillWithEmptyVar){
+        alert("fill with empty var false")
+       this.setState({FirstName: "", LastName: "", Address1: "", City: "", State: "", Zipcode: ""})
+       this.setState({fillWithEmptyVar: true})
+     }
+    }*/
 
-        if(!this.state.Address2){
-          alert("EMPTY ADDRESS")
-          this.setState({Address2: "n/a"})
-        }
-        else{
-          alert(this.state.Address2)
-        }
+    handleSubmit = event =>{
+        
 
         fetch('http://localhost:5000/post_ClientProfileManagementFirstLogin', {
              method: "POST",
@@ -360,8 +394,14 @@ class ClientProfileManagement extends React.Component {
       else if (this.state.City.length > 50){
         alert("City entry must be below 50 characters in length")
       }
+      else if(this.state.FirstName.length < 1 || this.state.LastName.length < 1 || this.state.Address1.length < 1 || this.state.City.length < 1 || this.state.Zipcode.length < 1 || this.state.USstate.length < 1)
+      {
+         alert("Please enter all required fields.")
+      }
       else{
+        
         this.handleSubmit();
+
       }
 
   }
@@ -448,6 +488,7 @@ class ClientProfileManagement extends React.Component {
                 />
                 <br></br>
                 <TextField
+                    required
                     id="standard-select-currency"
                     select
                     label="State"
@@ -478,7 +519,7 @@ class ClientProfileManagement extends React.Component {
                 </TextField>
                 <br></br>
                 <TextField
-                    Required
+                    required
                     //onInput={(e) => {
                     //e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 9)
                     //}}
