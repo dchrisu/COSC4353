@@ -39,7 +39,7 @@ connection.connect(err => {
     }
 });
 
-
+//Checks to see if username to be created already exists or not within the database
 app.post('/post_CheckRegistrationInfo', (req, res) =>{
     const {param1} = req.body;
 
@@ -60,8 +60,9 @@ app.post('/post_CheckRegistrationInfo', (req, res) =>{
 
 })
 
+//Creates a new row in database for new account registration
+//Creates an empty field in ClientInfo table and grabs its key to use as reference in the LoginCredentialsTable
 app.post('/post_ClientRegistrationPt1', (req, res) => {
-    //const { param1, param2 } = req.body;
 
     connection.query("INSERT INTO ClientInfo (FirstName) VALUES (NULL)"
         , function (err, results) {
@@ -71,9 +72,6 @@ app.post('/post_ClientRegistrationPt1', (req, res) => {
             }
             else {
                 console.log("1 record inserted into ClientInfo table");
-                //return res.json({
-                //    data: results
-                //})
             }
         })
 
@@ -94,15 +92,9 @@ app.post('/post_ClientRegistrationPt1', (req, res) => {
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
 
-
+//Inserts new account information into database with proper referenced foreign key
 app.post('/post_ClientRegistrationPt2', (req, res) => {
     const { param1, param2, param3 } = req.body;
-    //console.log(req.body.param1);
-    /*var parameters = [
-        {name: 'Username', sqltype: mysql.VarChar, value: req.body.param1},
-        {name: 'Password', sqltype: mysql.VarChar, value: req.body.param2}
-    ]
-    */
 
     connection.query("INSERT INTO LoginCredentials (Username, UserPassword, ClientInfoFK) VALUES ('" + req.body.param1 + "', '" + req.body.param2 + "', '" + req.body.param3 + "')"
         , function (err, results) {
@@ -112,7 +104,6 @@ app.post('/post_ClientRegistrationPt2', (req, res) => {
             }
             else {
                 console.log("1 record also inserted into LoginCredentials table");
-                //console.log("@Username");
                 return res.json({
                     data: results
                 })
@@ -122,6 +113,7 @@ app.post('/post_ClientRegistrationPt2', (req, res) => {
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
 
+//Retrieves login info from LoginCredentials table and will later check to see if user inputted field forms match
 app.post('/get_Login', (req, res) => {
     const { param1 } = req.body;
     console.log(req.body.param1);
@@ -144,6 +136,8 @@ app.post('/get_Login', (req, res) => {
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
 
+//On profile information/management screen, this will update user inputted field forms into 
+//the ClientInfo table
 app.post('/post_ClientProfileManagementFirstLogin', (req, res) => {
     const { param1, param2, param3, param4, param5, param6, param7, param8 } = req.body;
 
@@ -167,6 +161,8 @@ app.post('/post_ClientProfileManagementFirstLogin', (req, res) => {
     //return res.json({ data: results = { key1: "value1", key2: "value2", } })
 });
 
+//This will be called in the ComponentDidMount() function in order to retrieve
+//user profile information from database and show properly for user
 app.post('/get_ClientProfileManagement', (req, res) => {
     const { param1 } = req.body;
 
